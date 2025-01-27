@@ -144,7 +144,7 @@ export const EditHeroSectionofvideo = async (req, res) => {
             });
 
             // Clean up the local file
-            fs.unlinkSync(filePath);
+            fs.unlinkSync(req.file.path);
 
             // Update the video URL with the new uploaded video
             videoUrl = uploadvideo.secure_url;
