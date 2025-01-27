@@ -22,8 +22,8 @@ function HomeProducts() {
   return (
     <div className="min-h-[50vh] w-full py-10 px-4 bg-gray-50">
       {/* Title Section */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl md:text-4xl font-bold text-[#FD5D14]">
+      <div className="text-left lg:ml-14 mb-10">
+        <h1 className="text-lg md:text-2xl border-l-4 border-blue-700 pl-2 md:text-4xl font-bold text-[#FD5D14]">
           Products
         </h1>
       </div>
@@ -49,7 +49,7 @@ function HomeProducts() {
       </div>
 
       {/* Explore More Button */}
-      <div className="mt-10 flex justify-center">
+      <div className="mt-10  flex justify-center">
         <button className="bg-[#FD5D14] hover:bg-[#e04c0f] px-6 py-3 rounded-full text-white font-semibold shadow-md transition-transform transform hover:scale-105">
           <Link to="/products" className="flex items-center gap-2">
             <span>Explore more products</span>
