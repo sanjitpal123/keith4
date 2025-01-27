@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FetchHeroSection from "../Services/Homepage/FetchHeading";
+import FetchHeroSection from "../services/Homepage/FetchHeading";
 
 function HeroSection() {
   const [HeroData, setHeroData] = useState("");
