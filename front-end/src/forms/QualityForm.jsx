@@ -64,49 +64,56 @@ function QualityForm() {
     }
   };
 
-  const handleEdit = async(id) => {
+  const handleEdit = async (id) => {
     if (EditId === id) {
-      const editedItem = allqualitydata.find(item => item._id === id);
-      const editedData = {
-      
-        name: Name || editedItem.name,
-        description: Description || editedItem.description,
-        image: editedFiles[id],
-        typeofproduct: typesofproduct || editedItem.typeofproduct
-      };
-      
-
-      console.log('Edited Data:', editedData);
-
-      const res=await EditQuality(editedData, id);
-      fetchquality();
-      console.log('resedit',res);
-      setEditId(null);
-      setName("");
-      SetDescription("");
-      setEditedFiles(prev => {
-        const newState = { ...prev };
-        delete newState[id];
-        return newState;
-      });
-      settypesofproduct("Physical Testing");
-
+      const editedItem = allqualitydata.find((item) => item._id === id);
+  
+      // Prepare the form data
+      const formData = new FormData();
+      formData.append("name", Name || editedItem.name);
+      formData.append("description", Description || editedItem.description);
+      formData.append("typeofproduct", typesofproduct || editedItem.typeofproduct);
+      if (editedFiles[id]) {
+        formData.append("image", editedFiles[id]); // Append the edited file if exists
+      }
+  
+      try {
+        const res = await EditQuality(formData, id); // Send FormData to the API
+        console.log("Edited Response:", res);
+  
+        // Re-fetch data to update UI
+        fetchquality();
+  
+        // Reset states
+        setEditId(null);
+        setName("");
+        SetDescription("");
+        setEditedFiles((prev) => {
+          const newState = { ...prev };
+          delete newState[id];
+          return newState;
+        });
+        settypesofproduct("Physical Testing");
+      } catch (error) {
+        console.error("Error updating item:", error);
+      }
     } else {
+      // Set the item for editing
       const selectedItem = allqualitydata.find((item) => item._id === id);
       setEditId(id);
       setName(selectedItem.name);
       SetDescription(selectedItem.description);
       settypesofproduct(selectedItem.typeofproduct);
-      
+  
       if (!editedFiles[id]) {
-        setEditedFiles(prev => ({
+        setEditedFiles((prev) => ({
           ...prev,
-          [id]: null
+          [id]: null,
         }));
       }
     }
   };
-
+  
   const handleAdd = () => {
     setisadd(!isadd);
   };

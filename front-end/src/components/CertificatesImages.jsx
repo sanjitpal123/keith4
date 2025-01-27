@@ -6,16 +6,16 @@ import DeleteQuality from "../services/Quality/DeletedItem";
 import { Plus, X, Edit2, Trash2, Save } from 'lucide-react';
 import EditQuality from "../services/Quality/EditQuality";
 import FetchCertificates from "../services/AboutPage/FetchCertificates";
+import EditCertificate from "../services/AboutPage/Postmethods/EditCertificate";
 import DeleteCertificate from "../services/AboutPage/Postmethods/DeleteCertificate";
 import AddNewCertificate from "../services/AboutPage/Postmethods/postcertificates";
-import EditCertificate from "../services/AboutPage/Postmethods/EditCertificate";
 
-function CertificatesImages() {
+function QualityForm() {
   const [allqualitydata, setallqualitydata] = useState([]);
   const [EditId, setEditId] = useState(null);
   const [Description, SetDescription] = useState("");
   const [file, setfile] = useState(null);
-
+  const [typesofproduct, settypesofproduct] = useState("Physical Testing");
   const [Name, setName] = useState("");
   const [isadd, setisadd] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +25,8 @@ function CertificatesImages() {
   async function fetchquality() {
     setIsLoading(true);
     try {
-      const get = await FetchCertificates();
+      const get = await FetchCertificates ();
+      console.log('getcertificate',get)
       setallqualitydata(
         get.map((item) => ({
           ...item,
@@ -68,60 +69,68 @@ function CertificatesImages() {
     }
   };
 
-  const handleEdit = async(id) => {
+  const handleEdit = async (id) => {
     if (EditId === id) {
-      const editedItem = allqualitydata.find(item => item._id === id);
-      const editedData = {
-        title: Name || editedItem.name,
-        description: Description || editedItem.description,
-        image: editedFiles[id],
-        
-      };
-      
-
-      console.log('Edited Data:', editedData);
-
-      const res=await EditCertificate (editedData, id);
+      const editedItem = allqualitydata.find((item) => item._id === id);
+  
+      // Prepare the form data
+      const formData = new FormData();
+      formData.append("title", Name || editedItem.title);
+      formData.append("description", Description || editedItem.description);
     
-      fetchquality();
-      console.log('resedit',res);
-      setEditId(null);
-      setName("");
-      SetDescription("");
-      setEditedFiles(prev => {
-        const newState = { ...prev };
-        delete newState[id];
-        return newState;
-      });
-     
-
+      if (editedFiles[id]) {
+        formData.append("image", editedFiles[id]); // Append the edited file if exists
+      }
+  
+      try {
+        const res = await EditCertificate(formData, id); // Send FormData to the API
+        console.log("Edited Response:", res);
+  
+        // Re-fetch data to update UI
+        fetchquality();
+  
+        // Reset states
+        setEditId(null);
+        setName("");
+        SetDescription("");
+        setEditedFiles((prev) => {
+          const newState = { ...prev };
+          delete newState[id];
+          return newState;
+        });
+        settypesofproduct("Physical Testing");
+      } catch (error) {
+        console.error("Error updating item:", error);
+      }
     } else {
+      // Set the item for editing
       const selectedItem = allqualitydata.find((item) => item._id === id);
       setEditId(id);
       setName(selectedItem.name);
       SetDescription(selectedItem.description);
-      
-      
+      settypesofproduct(selectedItem.typeofproduct);
+  
       if (!editedFiles[id]) {
-        setEditedFiles(prev => ({
+        setEditedFiles((prev) => ({
           ...prev,
-          [id]: null
+          [id]: null,
         }));
       }
     }
   };
-
+  
   const handleAdd = () => {
     setisadd(!isadd);
   };
 
+  
 
   async function HandleAddNew() {
     const formData = new FormData();
     formData.append("image", file);
     formData.append("title", Name);
     formData.append("description", Description);
-    
+   
 
     setIsLoading1(true);
     try {
@@ -147,7 +156,7 @@ function CertificatesImages() {
     <main className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
-          Quality Manager
+          Certiicate Manager
         </h1>
 
         {isLoading ? (
@@ -167,7 +176,7 @@ function CertificatesImages() {
                   <div className="aspect-w-16 aspect-h-9 overflow-hidden">
                     <img
                       src={item.previewImage || item.image}
-                      alt={item.name}
+                      alt={item.title}
                       className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
@@ -195,7 +204,7 @@ function CertificatesImages() {
                 <div className="p-6 space-y-4">
                   <input
                     type="text"
-                    value={EditId === item._id ? Name : item.title}
+                    value={EditId === item._id ? Name : item?.title}
                     onChange={(e) => setName(e.target.value)}
                     readOnly={EditId !== item._id}
                     className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
@@ -287,7 +296,6 @@ function CertificatesImages() {
               />
 
              
-
               <button
                 className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"
                 onClick={HandleAddNew}
@@ -326,4 +334,4 @@ function CertificatesImages() {
   );
 }
 
-export default CertificatesImages;
+export default QualityForm;
