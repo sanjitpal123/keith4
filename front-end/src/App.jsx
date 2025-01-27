@@ -20,15 +20,15 @@ function App() {
     <>
       {!isAdminRoute && <NavBar />} {/* Render NavBar only if not on the Admin route */}
 
-      <div className="overflow-x-hidden">
+      <div className="overflow-x-hidden ">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/products/*" element={<Products />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/quality" element={<Quality />} />
-          <Route path="/product" element={<Product />} />
+          {/* <Route path="/product" element={<Product />} /> */}
           <Route path="/admin/*" element={<AdminDashboard />} />
         </Routes>
       </div>

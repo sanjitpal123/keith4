@@ -6,6 +6,7 @@ import HomeAwards from "../components/HomeAwards"
 import "../styles/Home.css"
 import PrideInspiration from "../components/PrideInspiration"
 import Testimonial from "../components/Testimonial"
+import VirtualTour from "../components/VirtualTour"
 
 function Home() {
     return (
@@ -39,6 +40,8 @@ function Home() {
                 </div>
                 </div>
             </div>
+            {/* virutal tour */}
+            <VirtualTour></VirtualTour>
             {/*product  section*/}
             <HomeProducts></HomeProducts>
             

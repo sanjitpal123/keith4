@@ -22,9 +22,9 @@ function PrideInspiration() {
   return (
     <div className="min-h-[50vh] w-full py-10 px-4 bg-gray-100">
       {/* Section Title */}
-      <div className="text-center mb-10">
-        <h1 className="text-2xl md:text-4xl font-bold text-[#FD5D14]">
-          OUR PRIDE OUR INSPIRATION
+      <div className="text-left lg:ml-14 mb-10">
+        <h1 className="text-lg md:text-2xl border-l-4 border-blue-700 pl-2 md:text-4xl font-bold text-[#FD5D14]">
+          Our Pride Our Inspiration
         </h1>
       </div>
 
