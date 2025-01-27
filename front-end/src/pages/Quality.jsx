@@ -42,12 +42,12 @@ function Quality() {
           {allphysicaltesting?.map((item, index) => (
             <div
               key={index}
-              className="bg-gray-100 hover:cursor-pointer rounded-lg shadow-lg overflow-hidden relative group"
+              className="bg-white hover:cursor-pointer rounded-lg shadow-lg overflow-hidden relative group"
             >
               <img
                 src={item.image || "./assets/images/default.jpg"} // Default image if none is provided
                 alt={item.name || "Equipment Image"}
-                className="w-full h-60 object-cover"
+                className="w-full h-60 object-contain"
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <p className="text-white text-center px-4">
@@ -70,12 +70,12 @@ function Quality() {
           {welcemicalmachine?.map((item, index) => (
             <div
               key={index}
-              className="bg-gray-100 hover:cursor-pointer rounded-lg shadow-lg overflow-hidden relative group"
+              className="bg-white hover:cursor-pointer rounded-lg shadow-lg overflow-hidden relative group"
             >
               <img
                 src={item.image || "./assets/images/default.jpg"} // Default image if none is provided
                 alt={item.name || "Equipment Image"}
-                className="w-full h-60 object-cover"
+                className="w-full h-60 object-contain"
               />
               <div className="absolute inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                 <p className="text-white text-center px-4">
