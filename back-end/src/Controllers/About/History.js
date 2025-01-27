@@ -97,3 +97,39 @@ export const EditHistory = async (req, res) => {
         });
     }
 };
+
+export const  DeleteHistory=async(req, res)=>
+{
+    try{
+        
+        const id=req.params.id;
+        console.log('id',id)
+        const his=await History.findById(id);
+        if(!his)
+        {
+            return res.status(404).json({
+                message:'Can not find with this id',
+                success:false
+            })
+        }
+        const deleted=await History.findByIdAndDelete(id);
+        if(!deleted)
+        {
+            return res.status(501).json({
+                message:'Can not  deleted '
+            })
+        }
+        return res.status(201).json({
+            message:'Deleted successfully',
+            success:true
+        })
+
+    }catch(error)
+    {
+
+        return res.status(501).json({
+            message:'Internal server error',
+            success:false
+        })
+    }
+}

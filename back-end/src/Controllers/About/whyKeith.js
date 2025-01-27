@@ -2,10 +2,10 @@ import whykeith from "../../Model/Aboutpage/WhyKeith.js";
 
 export const Whykeith = async (req, res) => {
     try {
-        const { Title, description } = req.body;
+        const { title, description } = req.body;
 
         // Check if required fields are provided
-        if (!Title || !description) {
+        if (!title || !description) {
             return res.status(401).json({
                 message: 'Fill all the fields',
                 success: false
@@ -13,13 +13,13 @@ export const Whykeith = async (req, res) => {
         }
 
         // Check if a document with the same Title already exists
-        const existingDoc = await whykeith.findOne({ Title });
+        const existingDoc = await whykeith.findOne({ title });
 
         if (existingDoc) {
             // If it exists, update the document
             const updatedDoc = await whykeith.findByIdAndUpdate(
                 existingDoc._id,
-                { Title, description },
+                { title, description },
                 { new: true } // Return the updated document
             );
 
@@ -31,7 +31,7 @@ export const Whykeith = async (req, res) => {
         }
 
         // If it does not exist, create a new document
-        const created = await whykeith.create({ Title, description });
+        const created = await whykeith.create({ title, description });
 
         return res.status(201).json({
             message: 'Successfully created',
