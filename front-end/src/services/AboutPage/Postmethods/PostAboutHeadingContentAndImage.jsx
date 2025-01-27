@@ -3,7 +3,7 @@ import axios from "axios";
 async function Postaboutheading_content_image(formData) {
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/homeabout/content",
+      `${import.meta.env.VITE_API_BASE_URL}/homeabout/content`,
       formData
     );
     console.log("res", res);

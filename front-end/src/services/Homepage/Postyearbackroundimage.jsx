@@ -4,7 +4,7 @@ import axios from 'axios';
 async function postyearbackroundimage(formdata) {
     try {
         console.log('form',formdata)
-        const res = await axios.post('http://localhost:3000/api/backroundimage/backroundimage', formdata);
+        const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/backroundimage/backroundimage`, formdata);
         
         console.log('res',res)
         return res.data;

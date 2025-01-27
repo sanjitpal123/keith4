@@ -4,7 +4,7 @@ async function EditCertificate(formData, id) {
   try {
     console.log('id',id)
     const res = await axios.put(
-      `http://localhost:3000/api/certificate/Edit/${id}`,
+      `${import.meta.env.VITE_API_BASE_URL}/certificate/Edit/${id}`,
       formData
     );
     console.log("res", res);

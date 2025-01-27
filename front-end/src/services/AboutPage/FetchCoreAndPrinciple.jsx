@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function FetchCoreAndPrinciple() {
     try {
-        const res = await axios.get('http://localhost:3000/api/coreandprinciple/getall', {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/coreandprinciple/getall`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         

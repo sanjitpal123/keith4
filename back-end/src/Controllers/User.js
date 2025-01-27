@@ -1,4 +1,4 @@
-import { compareSync } from "bcrypt";
+import  compareSync  from "bcryptjs";
 import User from "../Model/Register.js";
 import { finduserbyemail, findUserById } from "../Repository/user.js";
 import generatetoken from "../utils/TokenGenerete.js";

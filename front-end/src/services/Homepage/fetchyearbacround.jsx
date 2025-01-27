@@ -4,7 +4,7 @@ import axios from 'axios';
 async function Getbackroundyear() {
     try {
        
-        const res = await axios.get('http://localhost:3000/api/backroundimage/get');
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/backroundimage/get`);
         
         console.log('res',res)
         return res.data;

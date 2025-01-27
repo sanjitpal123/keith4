@@ -4,7 +4,7 @@ async function DeleteHistory(id) {
     console.log('id',id)
     try {
         console.log('id',id)
-        const res = await axios.delete(`http://localhost:3000/api/history/delete/${id}`, {
+        const res = await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/history/delete/${id}`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         

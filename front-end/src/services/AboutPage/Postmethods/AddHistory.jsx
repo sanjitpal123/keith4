@@ -3,7 +3,7 @@ import axios from "axios";
 async function AddNewHistory(formData) {
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/history/create",
+      `${import.meta.env.VITE_API_BASE_URL}history/create`,
       formData
     );
     console.log("res", res);

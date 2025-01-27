@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function FetchManagement() {
     try {
-        const res = await axios.get('http://localhost:3000/api/management/getall', {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/management/getall`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         

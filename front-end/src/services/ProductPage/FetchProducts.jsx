@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function FetchProducts() {
     try {
-        const res = await axios.get('http://localhost:3000/api/product/getallproducts', {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/product/getallproducts`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         

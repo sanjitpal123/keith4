@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function FetchCertificates() {
     try {
-        const res = await axios.get('http://localhost:3000/api/certificate/getall', {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/certificate/getall`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         

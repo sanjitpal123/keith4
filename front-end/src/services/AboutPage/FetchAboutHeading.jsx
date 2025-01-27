@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function FetchAboutHeading() {
     try {
-        const res = await axios.get('http://localhost:3000/api/homeabout/get', {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/homeabout/get`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         

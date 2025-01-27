@@ -2,7 +2,7 @@ import axios from 'axios';
 
 async function Fetchhistoryall() {
     try {
-        const res = await axios.get('http://localhost:3000/api/history/getall', {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/history/getall`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         
