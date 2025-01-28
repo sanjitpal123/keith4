@@ -4,11 +4,17 @@ import connect from './Config/DbConfig.js';
 import apirouter from './Routers/ApiRouter.js';
 import cors from 'cors'
 dotenv.config();
-
-
 const app = express();
+let originUrl
+const environment=process.env.NODE_ENV
+console.log(environment)
+if(environment==="development")
+    originUrl="http://localhost:5173"
+    else
+    originUrl="https://keith-neon.vercel.app"
+
 app.use(cors({
-    origin: 'https://keith-neon.vercel.app',
+    origin: originUrl,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
