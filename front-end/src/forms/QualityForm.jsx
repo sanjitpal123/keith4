@@ -316,8 +316,12 @@ function QualityForm() {
               >
                 <option>Physical Testing</option>
                 <option>Wet Chemical Laboratory Equipment</option>
-                <option>Item For Infrastructure</option>
+                <option>Product For Infrastructure</option>
                 <option>SAND TESTING EQUIPMENT</option>
+                <option>Railway Castings</option>
+                <option>Agricultural Castings</option>
+                <option>Micellaneous Castings </option>
+                <option>Municiple & Public Utility Castings</option>
               </select>
 
               <button

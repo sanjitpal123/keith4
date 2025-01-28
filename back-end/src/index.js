@@ -9,12 +9,13 @@ let originUrl
 const environment=process.env.NODE_ENV
 console.log(environment)
 if(environment==="development"){
-originUrl="http://localhost:5174"
+originUrl="http://localhost:5173"
 } else
 {
 originUrl="https://keith-neon.vercel.app"
 }
     
+console.log('o',originUrl)
 
 app.use(cors({
     origin: originUrl,
@@ -22,8 +23,8 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json({ limit:'50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json({ limit:'500mb' }));
+app.use(express.urlencoded({ limit: '500mb', extended: true }));
 
 
 
