@@ -14,7 +14,7 @@ function Infrastructure() {
     }
   }
   const filted = QualityData?.filter(
-    (item) => item.typeofproduct === "Item For Infrastructure"
+    (item) => item.typeofproduct === "Product For Infrastructure"
   );
   
   useEffect(() => {

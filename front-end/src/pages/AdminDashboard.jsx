@@ -74,7 +74,7 @@ function AdminDashboard() {
                 Products
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="/admin/infrastructure"
                 className={`block py-2 px-4 rounded hover:bg-gray-700 ${
@@ -83,8 +83,8 @@ function AdminDashboard() {
               >
                 Infrastructure
               </Link>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <Link
                 to="/admin/quality"
                 className={`block py-2 px-4 rounded hover:bg-gray-700 ${
@@ -93,7 +93,7 @@ function AdminDashboard() {
               >
                 Quality
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/admin/contact"

@@ -5,6 +5,11 @@ import { ClipLoader } from "react-spinners";
 import DeleteQuality from "../services/Quality/DeletedItem";
 import { Plus, X, Edit2, Trash2, Save } from 'lucide-react';
 import EditQuality from "../services/Quality/EditQuality";
+import AddProduct from "../services/ProductPage/AddProduct";
+import FetchProducts from "../services/ProductPage/FetchProducts"
+import DeleteProduct from "../services/ProductPage/DeleteProduct";
+import EditProduct from "../services/ProductPage/EditProduct";
+/// product form is here
 
 function QualityForm() {
   const [allqualitydata, setallqualitydata] = useState([]);
@@ -21,9 +26,9 @@ function QualityForm() {
   async function fetchquality() {
     setIsLoading(true);
     try {
-      const get = await FetchQuality();
+      const get = await FetchProducts();
       setallqualitydata(
-        get.map((item) => ({
+        get?.getall?.map((item) => ({
           ...item,
           previewImage: item.image,
         }))
@@ -56,7 +61,7 @@ function QualityForm() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await DeleteQuality(id);
+      const res = await DeleteProduct(id);
       console.log('deleted', res);
       fetchquality();
     } catch (error) {
@@ -70,15 +75,15 @@ function QualityForm() {
   
       // Prepare the form data
       const formData = new FormData();
-      formData.append("name", Name || editedItem.name);
+      formData.append("title", Name || editedItem.title);
       formData.append("description", Description || editedItem.description);
-      formData.append("typeofproduct", typesofproduct || editedItem.typeofproduct);
+     
       if (editedFiles[id]) {
         formData.append("image", editedFiles[id]); // Append the edited file if exists
       }
   
       try {
-        const res = await EditQuality(formData, id); // Send FormData to the API
+        const res = await EditProduct(formData, id); // Send FormData to the API
         console.log("Edited Response:", res);
   
         // Re-fetch data to update UI
@@ -120,7 +125,7 @@ function QualityForm() {
 
   const handleTypeChange = (e, id) => {
     const newType = e.target.value;
-    settypesofproduct(newType);
+  
     
     setallqualitydata(prev =>
       prev.map(item =>
@@ -132,13 +137,13 @@ function QualityForm() {
   async function HandleAddNew() {
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("name", Name);
+    formData.append("title", Name);
     formData.append("description", Description);
-    formData.append("typeofproduct", typesofproduct);
+  
 
     setIsLoading1(true);
     try {
-      const res = await AddNewQuality(formData);
+      const res = await AddProduct(formData);
       console.log("added", res);
       setisadd(false);
       setName("");
@@ -160,7 +165,7 @@ function QualityForm() {
     <main className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
-          Quality Manager
+          Product Manager
         </h1>
 
         {isLoading ? (
@@ -180,7 +185,7 @@ function QualityForm() {
                   <div className="aspect-w-16 aspect-h-9 overflow-hidden">
                     <img
                       src={item.previewImage || item.image}
-                      alt={item.name}
+                      alt={item.title}
                       className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
@@ -208,7 +213,7 @@ function QualityForm() {
                 <div className="p-6 space-y-4">
                   <input
                     type="text"
-                    value={EditId === item._id ? Name : item.name}
+                    value={EditId === item._id ? Name : item.title}
                     onChange={(e) => setName(e.target.value)}
                     readOnly={EditId !== item._id}
                     className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
@@ -222,17 +227,7 @@ function QualityForm() {
                     rows={3}
                   />
 
-                  <select
-                    value={EditId === item._id ? typesofproduct : item.typeofproduct}
-                    onChange={(e) => handleTypeChange(e, item._id)}
-                    disabled={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  >
-                    <option>Physical Testing</option>
-                    <option>Wet Chemical Laboratory Equipment</option>
-                    <option>Item For Infrastructure</option>
-                    <option>SAND TESTING EQUIPMENT</option>
-                  </select>
+                
 
                   <div className="flex justify-between gap-4 pt-2">
                     <button
@@ -309,20 +304,7 @@ function QualityForm() {
                 rows={4}
               />
 
-              <select
-                className="w-full p-3 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                value={typesofproduct}
-                onChange={(e) => settypesofproduct(e.target.value)}
-              >
-                <option>Physical Testing</option>
-                <option>Wet Chemical Laboratory Equipment</option>
-                <option>Product For Infrastructure</option>
-                <option>SAND TESTING EQUIPMENT</option>
-                <option>Railway Castings</option>
-                <option>Agricultural Castings</option>
-                <option>Micellaneous Castings </option>
-                <option>Municiple & Public Utility Castings</option>
-              </select>
+             
 
               <button
                 className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"

@@ -13,6 +13,8 @@ import FetchHeroSection from "../services/Homepage/FetchHeading"
 import PostHero from "../services/Homepage/PostHerosection";
 import Getbackroundyear from "../services/Homepage/fetchyearbacround";
 import postyearbackroundimage from "../services/Homepage/Postyearbackroundimage";
+import Gettourvidoe from "../services/Homepage/GetTourVIdeo";
+import PostTourVideo from "../services/Homepage/postvideotour";
 function AboutForm() {
   const [aboutData1, setAboutData1] = useState();
   const [AboutHeading, setAboutHeading] = useState();
@@ -35,6 +37,11 @@ function AboutForm() {
   const [whyusImage, setWhyusImage] = useState("");
   const [yearbackroundiamgefile, setyearbackroundiamgefile]=useState();
   const [getyearbackround, setgetyearbackround]=useState("");
+  const [isediting, setisediting]=useState("");
+  const[videofileoftour ,setvideofileoftour]=useState();
+  const[issubmiting, setissubmitting]=useState(false);
+  const[previewvideoftour, setpreviewtour]=useState()
+  
   
 
   // for form 1
@@ -48,6 +55,7 @@ function AboutForm() {
   function closeEditing1() {
     setIsEditing1(false);
   }
+  const[tourvideodata, settourvideodata]=useState();
   // onchange of image of aboutus
   function handleimagechange(e) {
     console.log("e");
@@ -230,10 +238,56 @@ function AboutForm() {
 
   }
  
+  async function Fetchtourvideo()
+  {
+    try{
+      const get=await Gettourvidoe();
+      console.log('tour',get);
+      settourvideodata(get);
+    }
+    catch(error)
+    {
+      console.log('error',error);
+    }
+  }
+  function handleEditvideotour()
+  {
+    setisediting(!isediting);
+  }
+  async function handlesubmitoftourvideo(e)
+  {
+    e.preventDefault();
+    console.log('file',videofileoftour);
+    const formdata=new FormData();
+    formdata.append('video',videofileoftour);
+    setissubmitting(true)
+    try{
+    const p=await PostTourVideo(formdata);
+    console.log('p',p);
+
+    setissubmitting(false);
+    }
+    catch(error)
+    {
+      setissubmitting(false);
+      console.log(error);
+    }
+ 
+  }
+  function changevideotour(e) {
+    const file = e.target.files[0]; // Get the selected file
+    setvideofileoftour(file); // Update state with the file
+  
+    if (file) {
+      const url = URL.createObjectURL(file); // Generate a temporary URL for the video file
+      setpreviewtour(url); // Update the preview state with the temporary URL
+    }
+  }
   useEffect(() => {
     Fetchcoreandprinciple();
     FetchHero();
-    fetchbackroundimageofyear()
+    fetchbackroundimageofyear();
+    Fetchtourvideo();
   }, []);
 
   useEffect(() => {
@@ -357,6 +411,43 @@ function AboutForm() {
             ))}
           </form>
         </div> */}
+       <div className="w-full">
+      <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
+        Tourvideo Section
+      </h2>
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <input
+
+          type="file"
+          accept="video/*"
+          onChange={changevideotour}
+          className=""
+        />
+        <div className="w-full flex flex-col items-center">
+          <div className="relative w-full max-w-3xl">
+            <video
+              src={previewvideoftour? previewvideoftour :tourvideodata?.video}
+              controls
+              className="w-full rounded-lg shadow-lg border border-gray-200"
+            ></video>
+            <p className="mt-4 text-sm text-gray-600">
+              *Please ensure the video is updated before saving.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-6 gap-4">
+          
+
+          <button
+            onClick={handlesubmitoftourvideo}
+            className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            <i className="lucide lucide-check-circle"></i> Submit
+          </button>
+        </div>
+      </div>
+    </div>
         
         {/* Hero Background */}
         <div className="border-b-2 border-gray-300">

@@ -63,3 +63,23 @@ export const VideoOftour=async(req , res)=>{
 
     }
 }
+export const Gettour=async(req, res)=>{
+    try{
+        const exist=await VideoTourmodel.findOne();
+        if(exist)
+        {
+            return res.status(201).json(exist)
+        }
+        return res.status(404).json({
+            message:"Can not find "
+        })
+    }
+    catch(error)
+    {
+        console.log('error',error);
+        return res.status(501).json({
+            message:'Internal server error',
+            success:false
+        })
+    }
+}

@@ -32,6 +32,7 @@ function Product() {
       }
     }
   };
+  
 
   return (
     <div>
