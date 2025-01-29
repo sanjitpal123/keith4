@@ -155,7 +155,7 @@ function QualityForm() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
+        <h1 className="text-xl md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
           Certiicate Manager
         </h1>
 
@@ -177,7 +177,7 @@ function QualityForm() {
                     <img
                       src={item.previewImage || item.image}
                       alt={item.title}
-                      className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-48 object-contain transform group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                   {EditId === item._id && (

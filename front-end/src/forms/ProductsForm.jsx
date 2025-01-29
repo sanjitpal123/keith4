@@ -163,8 +163,8 @@ function QualityForm() {
   return (
     <main className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
-          Quality Manager
+        <h1 className="text-xl md:text-4xl font-bold rounded-md py-2 text-center mb-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2  animate-fade-in">
+          Products Manager
         </h1>
 
         {isLoading ? (

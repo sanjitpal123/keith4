@@ -5,6 +5,7 @@ import AboutForm from "../forms/AboutForm";
 import ProductsForm from "../forms/ProductsForm";
 import InfrastructureForm from "../forms/InfrastructureForm";
 import QualityForm from "../forms/QualityForm";
+import ContactForm from "../forms/ContactForm";
 
 function AdminDashboard() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -153,7 +154,7 @@ function AdminDashboard() {
             <Route path="/products" element={<ProductsForm />} />
             <Route path="/infrastructure" element={<InfrastructureForm />} />
             <Route path="/quality" element={<QualityForm />} />
-            <Route path="/contact" element={<QualityForm />} />
+            <Route path="/contact" element={<ContactForm />} />
           </Routes>
         </main>
       </div>
