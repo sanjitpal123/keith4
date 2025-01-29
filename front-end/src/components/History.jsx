@@ -34,18 +34,37 @@ function History() {
               index % 2 === 0 ? "sm:justify-start" : "sm:justify-end"
             } sm:flex-row flex-col items-start`}
           >
-            {/* Timeline Connector */}
-            <div className="absolute  justify-center items-center top-0 left-1/2 transform -translate-x-1/2 bg-[#FD5D14] h-4 w-4 rounded-full z-10 sm:block hidden "></div>
+            {/* Timeline Connector (Tick SVG) */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 bg-[#FD5D14] h-4 w-4 rounded-full z-10 sm:block hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="#FD5D14"
+                className="h-4 w-4"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
 
             {/* Timeline Content */}
             <div
-              className={`bg-[#02245B] text-white px-4 py-4 rounded-lg shadow-md sm:w-[40%] w-full ${
-                index % 2 === 0 ? "sm:mr-4 sm:text-left" : "sm:ml-4 sm:text-right"
-              }`}
-            >
-              <time className="block text-lg font-semibold">{item.date}</time>
-              <p className="mt-1 text-sm">{item.description}</p>
-            </div>
+  className={`bg-[#02245B] hover:cursor-pointer text-white px-6 py-6 rounded-xl shadow-lg sm:w-[40%] w-full ${
+    index % 2 === 0 ? "sm:mr-4 sm:text-left" : "sm:ml-4 sm:text-right"
+  } transition-transform transform hover:scale-105 hover:shadow-xl hover:bg-[#033D7B] hover:text-[#E6E6FA]`}
+>
+  <time className="block text-lg font-semibold">{item.date}</time>
+  <div className="md:text-lg text-[#FD5D14] font-extrabold mb-3">
+    {item.title}
+  </div>
+  <div className="text-[#E6E6FA] leading-relaxed text-xs md:text-base opacity-90 hover:opacity-100 transition-all duration-300">
+    {item.description}
+  </div>
+</div>
+
           </li>
         ))}
       </ul>

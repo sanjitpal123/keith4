@@ -30,7 +30,7 @@ function PrideInspiration() {
 
       {/* Management Section */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        {getmanagement?.map((item, index) => (
+        {getmanagement.slice(0,2)?.map((item, index) => (
           <div
             key={index}
             className="relative group bg-white rounded-lg overflow-hidden shadow-lg"
