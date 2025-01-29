@@ -41,7 +41,7 @@ function HomeForm() {
   const[videofileoftour ,setvideofileoftour]=useState();
   const[issubmiting, setissubmitting]=useState(false);
   const[previewvideoftour, setpreviewtour]=useState()
-  
+  const [isHeroSubmitting,setIsHeroSubmitting]=useState(false)
   
 
   // for form 1
@@ -88,7 +88,7 @@ function HomeForm() {
   const handleSubmit1 = async (e) => {
     e.preventDefault();
     setIsEditing1(false); // Save and exit edit mode
-  
+    setIsHeroSubmitting(true)
     const formData = new FormData();
     console.log('content:', herocontent);
     console.log('header:', heroheader);
@@ -113,6 +113,7 @@ function HomeForm() {
       const response = await PostHero(formData);
       alert(response.message)
       console.log("Posting response:", response);
+      setIsHeroSubmitting(false)
     } catch (error) {
       console.error("Error during posting:", error);
     }
@@ -296,73 +297,116 @@ function HomeForm() {
   }, []);
 
   return (
-    <main className="p-4 sm:p-6 bg-gray-100 min-h-screen">
-      {/* Form Container */}
-      <div className="bg-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-5xl mx-auto">
-        <h2 className="text-3xl flex justify-center items-center gap-2 font-bold p-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
-         <span>
-            <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22 22L2 22" stroke="#ffff" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M2 11L10.1259 4.49931C11.2216 3.62279 12.7784 3.62279 13.8741 4.49931L22 11" stroke="#ffff" strokeWidth="1.5" strokeLinecap="round"/>
-            <path opacity="0.5" d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5" stroke="#ffff" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M4 22V9.5" stroke="#ffff" strokeWidth="1.5" strokeLinecap="round"/>
-            <path d="M20 22V9.5" stroke="#ffff" strokeWidth="1.5" strokeLinecap="round"/>
-            <path opacity="0.5" d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393C9 14.8787 9 15.5858 9 17V22" stroke="#ffff" strokeWidth="1.5"/>
-            <path opacity="0.5" d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z" stroke="#ffff" strokeWidth="1.5"/>
-            </svg>
-         </span>
-          Home
+    <main className="p-1 sm:p-6 bg-gray-100 min-h-screen">
+    {/* Form Container */}
+    <div className="bg-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-5xl mx-auto">
+      <h2 className="text-lg sm:text-3xl flex justify-center items-center sm:items-end gap-2 font-bold p-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
+        <span className="">
+          <svg
+            width="50px"
+            height="50px"
+            className="sm:w-[50px] sm:h-[50px] w-[30px] w-[30px]"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22 22L2 22"
+              stroke="#ffff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M2 11L10.1259 4.49931C11.2216 3.62279 12.7784 3.62279 13.8741 4.49931L22 11"
+              stroke="#ffff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              opacity="0.5"
+              d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5"
+              stroke="#ffff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M4 22V9.5"
+              stroke="#ffff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              d="M20 22V9.5"
+              stroke="#ffff"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+            <path
+              opacity="0.5"
+              d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393C9 14.8787 9 15.5858 9 17V22"
+              stroke="#ffff"
+              strokeWidth="1.5"
+            />
+            <path
+              opacity="0.5"
+              d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z"
+              stroke="#ffff"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </span>
+        Home
+      </h2>
+
+      {/* Hero Section */}
+      <div className="border-b-2 border-gray-300">
+        <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
+          Hero Section
         </h2>
+        <form className="space-y-6 p-6" onSubmit={handleSubmit1}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Hero Heading */}
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Hero Heading
+              </label>
+              <input
+                type="text"
+                value={heroheader}
+                onChange={(e) => setheroheader(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                placeholder="Enter heading"
+                disabled={!isEditing1}
+              />
+            </div>
 
-        {/* Hero Section */}
-        <div className="border-b-2 border-gray-300">
-          <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
-            Hero Section
-          </h2>
-          <form className="space-y-6 p-6" onSubmit={handleSubmit1}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* hero Heading */}
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Hero Heading
-                </label>
-                <input
-                  type="text"
-                  value={heroheader}
-                  onChange={(e) => setheroheader(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                  placeholder="Enter heading"
-                  disabled={!isEditing1}
-                />
-              </div>
+            {/* Hero Description */}
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Hero Description
+              </label>
+              <input
+                type="text"
+                value={herocontent}
+                onChange={(e) => setherocontent(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                placeholder="Enter description"
+                disabled={!isEditing1}
+              />
+            </div>
 
-              {/* hero Description */}
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Hero Description
-                </label>
-                <input
-                  type="text"
-                  value={herocontent}
-                  onChange={(e) => setherocontent(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                  placeholder="Enter description"
-                  disabled={!isEditing1}
-                />
-              </div>
-
-              {/* HEro video */}
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Hero video
-                </label>
-                <input
-                  type="file"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                  onChange={handleVideoUpload}
-                  disabled={!isEditing1}
-                />
-                {videoPreview && (
+            {/* Hero Video */}
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Hero Video
+              </label>
+              <input
+                type="file"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                onChange={handleVideoUpload}
+                disabled={!isEditing1}
+              />
+              {videoPreview && (
                 <div className="mt-4">
                   <video
                     controls
@@ -373,156 +417,144 @@ function HomeForm() {
                   </video>
                 </div>
               )}
-
-              </div>
             </div>
+          </div>
 
-            {/* Submit & Cancel Buttons */}
-            {isEditing1 && (
-              <div className="flex justify-start space-x-4 mt-6">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
-                 onClick={handleSubmit1}>
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  onClick={closeEditing1}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </form>
-
-          {/* Edit Button */}
-          {!isEditing1 && (
-            <div className="p-4">
+          {/* Submit & Cancel Buttons */}
+          {isEditing1 && (
+            <div className="flex justify-start space-x-4 mt-6">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onClick={handleSubmit1}
+              >{
+                isHeroSubmitting?"Submitting...":"Submit"
+              }
+              </button>
               <button
                 type="button"
-                className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500"
-                onClick={openEditing1}
+                onClick={closeEditing1}
+                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500"
               >
-                Edit
+                Cancel
               </button>
             </div>
           )}
-        </div>
+        </form>
 
-        {/* background hero Section */}
-        {/* <div className="border-b-2 border-gray-300">
-          <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
-            History
-          </h2>
-          <form className="space-y-6 p-6" onSubmit={handleSubmit2}>
-            {historyData?.map((data) => (
-              <HistoryForm key={data._id} data={data} isEditing2={isEditing2} />
-            ))}
-          </form>
-        </div> */}
-       <div className="w-full">
-      <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
-        Tourvideo Section
-      </h2>
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <input
+        {/* Edit Button */}
+        {!isEditing1 && (
+          <div className="p-4">
+            <button
+              type="button"
+              className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500"
+              onClick={openEditing1}
+            >
+              Edit
+            </button>
+          </div>
+        )}
+      </div>
 
-          type="file"
-          accept="video/*"
-          onChange={changevideotour}
-          className=""
-        />
-        <div className="w-full flex flex-col items-center">
-          <div className="relative w-full max-w-3xl">
-            <video
-              src={previewvideoftour? previewvideoftour :tourvideodata?.video}
-              controls
-              className="w-full rounded-lg shadow-lg border border-gray-200"
-            ></video>
-            <p className="mt-4 text-sm text-gray-600">
-              *Please ensure the video is updated before saving.
-            </p>
+      {/* Tour Video Section */}
+      <div className="w-full">
+        <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
+          Tour Video Section
+        </h2>
+        <div className="bg-white shadow-md rounded-lg p-6">
+          <input
+            type="file"
+            accept="video/*"
+            onChange={changevideotour}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+          />
+          <div className="w-full flex flex-col items-center mt-4">
+            <div className="relative w-full max-w-3xl">
+              <video
+                src={previewvideoftour ? previewvideoftour : tourvideodata?.video}
+                controls
+                className="w-full rounded-lg shadow-lg border border-gray-200"
+              ></video>
+              <p className="mt-4 text-sm text-gray-600">
+                *Please ensure the video is updated before saving.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex justify-center mt-6 gap-4">
+            <button
+              onClick={handlesubmitoftourvideo}
+              className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <i className="lucide lucide-check-circle"></i> Submit
+            </button>
           </div>
         </div>
-
-        <div className="flex justify-center mt-6 gap-4">
-          
-
-          <button
-            onClick={handlesubmitoftourvideo}
-            className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500"
-          >
-            <i className="lucide lucide-check-circle"></i> Submit
-          </button>
-        </div>
       </div>
-    </div>
-        
-        {/* Hero Background */}
-        <div className="border-b-2 border-gray-300">
-          <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
-            Hero Background
-          </h2>
-          <form className="space-y-6 p-6" >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* HEro background */}
-              <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Hero image
-                </label>
-                <input
-                  type="file"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                  onChange={previewAboutImage}
-                  disabled={!isEditing1}
-                />
-                {aboutImage && (
-                  <div className="mt-4">
-                    <img
-                      src={getyearbackround.image}
-                      alt="Year Background"
-                      className="w-full h-auto rounded-lg shadow-md"
-                    />
-                  </div>
-                )}
 
-              </div>
+      {/* Hero Background Section */}
+      <div className="border-b-2 border-gray-300">
+        <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
+          Hero Background
+        </h2>
+        <form className="space-y-6 p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Hero Background Image */}
+            <div>
+              <label className="block text-gray-700 font-semibold mb-2">
+                Hero Image
+              </label>
+              <input
+                type="file"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                onChange={previewAboutImage}
+                disabled={!isEditing1}
+              />
+              {aboutImage && (
+                <div className="mt-4">
+                  <img
+                    src={getyearbackround.image}
+                    alt="Year Background"
+                    className="w-full h-auto rounded-lg shadow-md"
+                  />
+                </div>
+              )}
             </div>
+          </div>
 
-            {/* Submit & Cancel Buttons */}
-            {isEditing1 && (
-              <div className="flex justify-start space-x-4 mt-6">
-                <button
-                  type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
-                 onClick={handleSubmit2}>
-                  Submit
-                </button>
-                <button
-                  type="button"
-                  onClick={closeEditing1}
-                  className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500"
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </form>
-
-          {/* Edit Button */}
-          {!isEditing1 && (
-            <div className="p-4">
+          {/* Submit & Cancel Buttons */}
+          {isEditing1 && (
+            <div className="flex justify-start space-x-4 mt-6">
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onClick={handleSubmit2}
+              >
+                Submit
+              </button>
               <button
                 type="button"
-                className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500"
-                onClick={openEditing1}
+                onClick={closeEditing1}
+                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500"
               >
-                Edit
+                Cancel
               </button>
             </div>
           )}
+        </form>
+
+        {/* Edit Button */}
+        {!isEditing1 && (
+          <div className="p-4">
+            <button
+              type="button"
+              className="flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500"
+              onClick={openEditing1}
+            >
+              Edit
+            </button>
+          </div>
+        )}
         </div>
 
         {/* Hero backgoround image */}

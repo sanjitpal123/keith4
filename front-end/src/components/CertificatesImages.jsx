@@ -10,7 +10,7 @@ import EditCertificate from "../services/AboutPage/Postmethods/EditCertificate";
 import DeleteCertificate from "../services/AboutPage/Postmethods/DeleteCertificate";
 import AddNewCertificate from "../services/AboutPage/Postmethods/postcertificates";
 
-function QualityForm() {
+function CertificateImages() {
   const [allqualitydata, setallqualitydata] = useState([]);
   const [EditId, setEditId] = useState(null);
   const [Description, SetDescription] = useState("");
@@ -21,6 +21,8 @@ function QualityForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
   const [editedFiles, setEditedFiles] = useState({});
+  const [saveLoading,setSaveLoading]=useState(false)
+  const [deleteLoading,setDeleteLoading]=useState(false)
 
   async function fetchquality() {
     setIsLoading(true);
@@ -61,8 +63,10 @@ function QualityForm() {
 
   const handleDelete = async (id) => {
     try {
+      setDeleteLoading(true)
       const res = await DeleteCertificate(id);
       console.log('deleted', res);
+      setDeleteLoading(false)
       fetchquality();
     } catch (error) {
       console.log('error', error);
@@ -72,7 +76,7 @@ function QualityForm() {
   const handleEdit = async (id) => {
     if (EditId === id) {
       const editedItem = allqualitydata.find((item) => item._id === id);
-  
+      setSaveLoading(true)
       // Prepare the form data
       const formData = new FormData();
       formData.append("title", Name || editedItem.title);
@@ -90,6 +94,7 @@ function QualityForm() {
         fetchquality();
   
         // Reset states
+        setSaveLoading(false)
         setEditId(null);
         setName("");
         SetDescription("");
@@ -153,9 +158,9 @@ function QualityForm() {
   }, []);
 
   return (
-    <main className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <main className="p-2 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-xl md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
+        <h1 className="text-lg underline inline-block decoration-blue-600 md:text-4xl font-bold text-center mb-8 text-gray-800 animate-fade-in">
           Certiicate Manager
         </h1>
 
@@ -201,7 +206,7 @@ function QualityForm() {
                   )}
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="sm:p-6 p-2 space-y-4">
                   <input
                     type="text"
                     value={EditId === item._id ? Name : item?.title}
@@ -220,24 +225,34 @@ function QualityForm() {
 
                  
 
-                  <div className="flex justify-between gap-4 pt-2">
+                  <div className="flex flex-wrap justify-between gap-2 pt-2">
                     <button
                       onClick={() => handleDelete(item._id)}
-                      className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
+                      className="flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
                     >
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
+                      {
+                        deleteLoading?<span>Deleting...</span>:
+                        <>
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </>
+                      }
                     </button>
                     <button
                       onClick={() => handleEdit(item._id)}
-                      className={`flex items-center px-4 py-2 ${
+                      className={`flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 ${
                         EditId === item._id ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
                       } text-white rounded-lg transition-colors duration-300`}
                     >
                       {EditId === item._id ? (
                         <>
+                        {
+                          saveLoading?<span>Loading...</span>:
+                          <>
                           <Save className="w-4 h-4 mr-2" />
                           Save
+                          </>
+                        }
                         </>
                       ) : (
                         <>
@@ -281,7 +296,7 @@ function QualityForm() {
 
               <input
                 type="text"
-                value={Name}
+                value={Name||""}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter name"
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
@@ -289,7 +304,7 @@ function QualityForm() {
 
               <textarea
                 placeholder="Enter description"
-                value={Description}
+                value={Description||""}
                 onChange={(e) => SetDescription(e.target.value)}
                 className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 rows={4}
@@ -334,4 +349,4 @@ function QualityForm() {
   );
 }
 
-export default QualityForm;
+export default CertificateImages;

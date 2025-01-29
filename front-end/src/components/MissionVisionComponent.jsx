@@ -60,7 +60,7 @@ function MissionVisionComponent({ data, title, description, image }) {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div>
           <label className="block text-gray-700 font-semibold mb-2">Heading</label>

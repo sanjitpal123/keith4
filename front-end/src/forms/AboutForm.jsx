@@ -199,20 +199,20 @@ function AboutForm() {
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="flex items-center gap-2">
-          <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
-          <span className="text-lg font-medium text-gray-700">Loading...</span>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen flex items-center justify-center">
+  //       <div className="flex items-center gap-2">
+  //         <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+  //         <span className="text-lg font-medium text-gray-700">Loading...</span>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto p-2 sm:p-4 lg:p-8">
+      <div className="max-w-7xl mx-auto p-1 sm:p-4 lg:p-8">
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-3 sm:p-6">
@@ -226,10 +226,10 @@ function AboutForm() {
 
           <div className="p-3 sm:p-6 space-y-6 sm:space-y-10">
             {/* About Section */}
-            <section className="space-y-4 sm:space-y-6">
-              <div className="flex items-center gap-2 border-b pb-2">
-                <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
-                <h3 className="text-sm sm:text-xl md:text-2xl font-semibold text-gray-800 truncate">
+            <section className="space-y-4 border-b py-3 sm:space-y-6">
+              <div className="flex items-center gap-2  pb-2">
+                {/* <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" /> */}
+                <h3 className=" text-lg sm:text-xl underline decoration-blue-600 sm:text-xl md:text-2xl font-semibold text-gray-800 truncate">
                   About Section
                 </h3>
               </div>
@@ -243,7 +243,7 @@ function AboutForm() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                      <PencilLine className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+                      {/* <PencilLine className="w-4 h-4 text-indigo-600 flex-shrink-0" /> */}
                       Heading
                     </label>
                     <input
@@ -260,7 +260,7 @@ function AboutForm() {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-                      <PencilLine className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+                      {/* <PencilLine className="w-4 h-4 text-indigo-600 flex-shrink-0" /> */}
                       Description
                     </label>
                     <textarea
@@ -335,7 +335,7 @@ function AboutForm() {
                       type="submit"
                       className="flex items-center gap-1.5 px-3 py-2 bg-gray-600 text-white text-sm rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                     >
-                      <PencilLine className="w-4 h-4" />
+                      {/* <PencilLine className="w-4 h-4" /> */}
                       <span>Edit</span>
                     </button>
                   )}
@@ -344,8 +344,8 @@ function AboutForm() {
             </section>
 
             {/* History Section */}
-            <section className="space-y-4">
-              <div className="flex items-center justify-between border-b pb-2">
+            <section className="space-y-4 ">
+              <div className="flex items-center justify-between  pb-2">
                 <div className="flex items-center gap-2">
                   <History className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
                   <h3 className="text-sm sm:text-xl md:text-2xl font-semibold text-gray-800 truncate">
@@ -373,23 +373,24 @@ function AboutForm() {
             </section>
 
             {/* Principles Section */}
-            <section className="space-y-4">
-              <div className="flex items-center justify-between border-b pb-2">
+            <section className="space-y-4 border-b">
+              <div className="flex flex-wrap items-center justify-between  pb-2">
                 <div className="flex items-center gap-2">
                   <Heart className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
                   <h3 className="text-sm sm:text-xl md:text-2xl font-semibold text-gray-800 truncate">
                     Principles & Core Values
                   </h3>
                 </div>
-                <button
+                {/* for adding priciples ................ */}
+                {/* <button
                   onClick={() => setShowPrincipleModal(true)}
                   className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-2 bg-indigo-600 text-white text-xs sm:text-sm rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Add Principle</span>
-                </button>
+                  <span>Add</span>
+                </button> */}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-wrap gap-4">
                 {principlesData.map((item) => (
                   <MissionVisionComponent
                     key={item._id}
@@ -406,7 +407,7 @@ function AboutForm() {
 
             {/* Why Us Section */}
             <section className="space-y-4">
-              <div className="flex items-center justify-between border-b pb-2">
+              <div className="flex items-center justify-between  pb-2">
                 <div className="flex items-center gap-2">
                   <HelpCircle className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-600 flex-shrink-0" />
                   <h3 className="text-sm sm:text-xl md:text-2xl font-semibold text-gray-800 truncate">
@@ -419,7 +420,7 @@ function AboutForm() {
                       onClick={() => setIsEditingWhyUs(true)}
                       className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-2 bg-gray-600 text-white text-xs sm:text-sm rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                     >
-                      <PencilLine className="w-3 h-3 sm:w-4 sm:h-4" />
+                      {/* <PencilLine className="w-3 h-3 sm:w-4 sm:h-4" /> */}
                       <span>Edit</span>
                     </button>
                   ) : null}

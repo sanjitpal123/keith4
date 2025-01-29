@@ -158,7 +158,7 @@ function AdminDashboard() {
         </header>
 
         {/* Dashboard content */}
-        <main className="p-4 sm:p-6 bg-gray-100 min-h-screen">
+        <main className="p-2 sm:p-6 bg-gray-100 min-h-screen">
           <Routes>
             {/* Redirect `/admin` to `/admin/home` */}
             <Route path="/" element={<Navigate to="/admin/home" />} />
