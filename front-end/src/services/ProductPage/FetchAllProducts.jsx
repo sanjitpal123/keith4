@@ -12,6 +12,6 @@ async function FetchAllProducts() {
         console.error("Error request:", error.request);  // Log request details for debugging
         throw error;
     }
-}
+}//hi
 
 export default FetchAllProducts;

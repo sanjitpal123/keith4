@@ -51,7 +51,7 @@ function MunicipalCastings() {
       {/* Section Title */}
       <div className="text-left lg:ml-14 mb-10">
         <h1 className="text-lg md:text-2xl lg:text-4xl font-bold text-[#FD5D14] border-l-4 border-blue-700 pl-4 mb-6">
-          Miscellaneous Castings
+          Municipal Castings
         </h1>
       </div>
 
@@ -77,5 +77,5 @@ function MunicipalCastings() {
     </div>
   );
 }
-
+//hi
 export default MunicipalCastings;
