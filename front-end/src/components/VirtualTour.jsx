@@ -48,7 +48,7 @@ const VirtualTour = () => {
             className="w-full h-auto rounded-lg cursor-pointer transform transition-all duration-300 ease-in-out hover:scale-105"
             onClick={handleVideoClick}
             controls
-            src={video.video} // Replace with your actual video path
+            src={video?.video} // Replace with your actual video path1
             alt="Virtual Tour Video"
           />
           {/* <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 hover:bg-opacity-50 transition-opacity duration-300">
