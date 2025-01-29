@@ -10,19 +10,38 @@ import Quality from "./pages/Quality";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./components/Login";
 import { useContext } from "react";
-import { AuthProvider, AuthContext } from "./components/Context"; // Fix capitalization
+import { AuthProvider, AuthContext } from "./components/Context"; 
+import SEO from "./components/Seo"; // Fix capitalization
 
 function App() {
   const location = useLocation(); // Get the current location
   const isAdminRoute = location.pathname.startsWith("/admin"); // Check if it's an admin route
+  const { user } = useContext(AuthContext);
 
-  const { user } = useContext(AuthContext); // Move this inside AuthProvider
+  // Define route-based SEO metadata (this could be fetched dynamically from an API)
+  const getMetadata = () => {
+    switch (location.pathname) {
+      case "/":
+        return { title: "Home", description: "Welcome to our homepage", keywords: "home, welcome" };
+      case "/products":
+        return { title: "Products", description: "Our amazing products", keywords: "products, buy" };
+      case "/about":
+        return { title: "About Us", description: "Learn more about us", keywords: "about, company" };
+      case "/contact":
+        return { title: "Contact Us", description: "Get in touch with us", keywords: "contact, support" };
+      default:
+        return { title: "Default Title", description: "Default Description", keywords: "default" };
+    }
+  };
+
+  const metadata = getMetadata();
 
   return (
     <>
       {!isAdminRoute && <NavBar />} {/* Render NavBar only if not on the Admin route */}
 
       <div className="overflow-x-hidden">
+        <SEO metadata={metadata} /> {/* Pass SEO metadata to SEO component */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products/*" element={<Products />} />

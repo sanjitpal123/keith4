@@ -6,6 +6,7 @@ import TeamManagement from "../components/TeamManagement"
 import WhyUs from "../components/WhyUs"
 
 function About() {
+    
     return (
         
             <section className="pt-[150px] bg-gray-100 px-4 md:px-8 ">

@@ -14,8 +14,13 @@ const MetadataSchema = new mongoose.Schema({  // ✅ Use `new mongoose.Schema()`
     },
     author: {
         type: String
+    },
+    
+    typesofseo:{
+        type:String
     }
-}, { timestamps: true });  // ✅ Adds `createdAt` & `updatedAt` timestamps automatically
+
+}, { timestamps: true });  
 
 const MetadataModel = mongoose.model('Metadata', MetadataSchema);
 
