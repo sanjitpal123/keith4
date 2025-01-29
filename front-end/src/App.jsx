@@ -9,6 +9,7 @@ import Infrastructure from "./pages/Infrastructure";
 import Quality from "./pages/Quality";
 import Product from "./pages/Product";
 import AdminDashboard from "./pages/AdminDashboard";
+import Login from "./components/Login";
 // just text 1.0
 function App() {
   const location = useLocation(); // Get the current location
@@ -30,6 +31,7 @@ function App() {
           <Route path="/quality" element={<Quality />} />
           {/* <Route path="/product" element={<Product />} /> */}
           <Route path="/admin/*" element={<AdminDashboard />} />
+          <Route path="/Login" element={<Login/>}/>
         </Routes>
       </div>
 

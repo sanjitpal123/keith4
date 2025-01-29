@@ -88,3 +88,36 @@ export const Login=async(req,res)=>{
     }
 
 }
+
+export const DeleteUser=async (req,res)=>{
+    try{
+        const id=req.params.id;
+        const user=await findUserById(id);
+        if(!user)
+            {
+                return res.status(404).json({
+                    message:'Can not find user with this email',
+                    success:false
+                })
+            } 
+            const deleted=await findByIdAndDelete(id);
+            if(deleted)
+            {
+                return res.status(201).json({
+                    message:'User is deleted successfully',
+                    success:true
+                })
+            }
+            return res.status(401).json({
+                message:'Can not delete user',
+                success:false
+            })
+    }
+    catch(error)
+    {
+        return res.satus(501).json({
+            message:'Internal server error',
+            success:false
+        })
+    }
+}

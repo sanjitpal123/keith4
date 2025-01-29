@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const navigate = useNavigate()
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  function gotoHome(){
+    navigate("./")
+  }
 
   return (
     <nav>
@@ -15,7 +19,7 @@ const Navbar = () => {
         <div className="w-full h-[100px] fixed z-[20] flex items-center justify-between px-4 md:px-8 bg-[#02245B]">
           {/* Logo Section */}
           <div className="bg-white w-[90px] h-[50px] sm:w-[160px] sm:h-auto">
-            <img src="/assets/images/logo.png" className="w-full h-full" alt="Website Logo" />
+            <img onClick={gotoHome} src="/assets/images/logo.png" className="w-full h-full hover:cursor-pointer" alt="Website Logo" />
           </div>
 
           {/* Desktop Navigation */}

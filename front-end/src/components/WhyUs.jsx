@@ -1,6 +1,6 @@
 function WhyUs() {
     return (
-        <div className="max-w-7xl  mx-auto  items-center mt-10 px-2  gap-8  py-[80px]">
+        <div className="max-w-7xl  mx-auto  items-center md:mt-10 px-2  gap-8  md:py-[80px]">
           {/* heading */}
           <div >
             <h1 className=" text-xl md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">Why Keith Ceramic ?</h1>

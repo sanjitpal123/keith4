@@ -41,6 +41,7 @@ function RailwayCastings() {
             <img
               src={product.image}
               alt={product.name}
+              loading="lazy"
               className="w-full h-48 object-contain"
             />
             <div className="px-4 py-2 text-left">
@@ -51,6 +52,6 @@ function RailwayCastings() {
       </div>
     </div>
   );
-}
+}//hello
 
 export default RailwayCastings;

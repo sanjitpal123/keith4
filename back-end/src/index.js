@@ -8,6 +8,7 @@ const app = express();
 let originUrl
 const environment=process.env.NODE_ENV
 console.log(environment)
+
 if(environment==="development"){
 originUrl="http://localhost:5173"
 } else

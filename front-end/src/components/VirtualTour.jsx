@@ -21,9 +21,9 @@ const VirtualTour = () => {
       <div className="max-w-screen-xl mx-auto flex flex-col justify-center items-center space-y-8 px-4 md:px-8 w-full">
         
         {/* Heading Section - Positioned at the Top Left */}
-        <h1 className="text-4xl font-bold text-white border-l-4 border-blue-800 pl-4 absolute top-16 left-8 z-10">
+        {/* <h1 className="text-4xl font-bold text-white border-l-4 border-blue-800 pl-4 absolute top-16 left-8 z-10">
           Our Virtual Tour
-        </h1>
+        </h1> */}
 
         {/* Video Section */}
         <div className="relative w-full max-w-full">
