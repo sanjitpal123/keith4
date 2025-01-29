@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { LogIn, Mail, Lock } from 'lucide-react';
+import Loginuser from '../services/Login/Loginpost';
+import { AuthContext } from './Context';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Password, setPassword] = useState('');
+  const {login}=useContext(AuthContext);
+  const navigate=useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+    console.log('email',Email);
+    console.log('password',Password);
+    const obj={Email, Password};
+    try{
+      const res=await Loginuser(obj);
+      login(res);
+      console.log('res',res);
+      navigate('/admin')
+    }catch(error)
+    {
+      console.log('error',error);
+    }
+
     // Handle login logic here
   };
 
@@ -29,7 +47,7 @@ function Login() {
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors" size={20} />
                   <input
                     type="email"
-                    value={email}
+                    value={Email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-500 transition-all hover:border-orange-200"
                     placeholder="Email address"
@@ -43,7 +61,7 @@ function Login() {
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors" size={20} />
                   <input
                     type="password"
-                    value={password}
+                    value={Password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-500 transition-all hover:border-orange-200"
                     placeholder="Password"
@@ -57,9 +75,7 @@ function Login() {
                   <input type="checkbox" className="w-4 h-4 accent-orange-500" />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-orange-500 hover:text-orange-600 transition-colors">
-                  Forgot password?
-                </a>
+               
               </div>
 
               <button
@@ -73,12 +89,8 @@ function Login() {
               </button>
             </form>
 
-            <p className="text-center text-gray-600">
-              Don't have an account?{' '}
-              <a href="#" className="text-orange-500 hover:text-orange-600 font-semibold transition-colors">
-                Sign up
-              </a>
-            </p>
+          
+          
           </div>
         </div>
 

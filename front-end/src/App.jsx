@@ -7,21 +7,22 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Infrastructure from "./pages/Infrastructure";
 import Quality from "./pages/Quality";
-import Product from "./pages/Product";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./components/Login";
-// just text 1.0
+import { useContext } from "react";
+import { AuthProvider, AuthContext } from "./components/Context"; // Fix capitalization
+
 function App() {
   const location = useLocation(); // Get the current location
+  const isAdminRoute = location.pathname.startsWith("/admin"); // Check if it's an admin route
 
-  // Check if the current route is `/Admin`
-  const isAdminRoute = location.pathname.startsWith("/admin")
+  const { user } = useContext(AuthContext); // Move this inside AuthProvider
 
   return (
     <>
       {!isAdminRoute && <NavBar />} {/* Render NavBar only if not on the Admin route */}
 
-      <div className="overflow-x-hidden ">
+      <div className="overflow-x-hidden">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products/*" element={<Products />} />
@@ -29,9 +30,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/quality" element={<Quality />} />
-          {/* <Route path="/product" element={<Product />} /> */}
-          <Route path="/admin/*" element={<AdminDashboard />} />
-          <Route path="/Login" element={<Login/>}/>
+          <Route path="/admin/*" element={user ? <AdminDashboard /> : <Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
 
@@ -40,10 +40,13 @@ function App() {
   );
 }
 
+// ✅ Wrap everything inside `AuthProvider`
 export default function Main() {
   return (
-    <Router>
-      <App />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <App />
+      </Router>
+    </AuthProvider>
   );
 }

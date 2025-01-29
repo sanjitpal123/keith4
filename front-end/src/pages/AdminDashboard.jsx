@@ -1,18 +1,28 @@
 import { Routes, Route, Link, Navigate, useNavigate, useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import HomeForm from "../forms/HomeForm";
 import AboutForm from "../forms/AboutForm";
 import ProductsForm from "../forms/ProductsForm";
 import InfrastructureForm from "../forms/InfrastructureForm";
 import QualityForm from "../forms/QualityForm";
+import { AuthContext } from "../components/Context";
 
 function AdminDashboard() {
+ 
+  const {logout}=useContext(AuthContext);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation(); // Get current route
 
   function gotoHome() {
     navigate("/");
+  }
+  function handlelogout(e)
+  {
+    e.preventDefault();
+    logout();
+    navigate('/login')
+
   }
 
   return (
@@ -108,7 +118,7 @@ function AdminDashboard() {
         </nav>
 
         {/* Logout Button */}
-        <div className="mt-auto pt-4">
+        <div className="mt-auto pt-4" onClick={handlelogout}>
           <button
             className="flex items-center gap-2 py-2 px-4 w-full text-left rounded bg-red-600 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-400"
           >
