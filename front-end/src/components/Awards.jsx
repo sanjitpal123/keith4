@@ -66,7 +66,7 @@ const Awards = () => {
                   key={index}
                   src={certificate.image}
                   alt={certificate.title || `Award ${index + 1}`}
-                  className="w-full hover:cursor-pointer h-[90%] rounded-lg shadow-lg object-cover"
+                  className="w-full hover:cursor-pointer h-[90%] rounded-lg shadow-lg object-contain"
                   onClick={() =>
                     openModal(
                       certificate.image,
