@@ -30,13 +30,13 @@ function MunicipalCastings() {
   const [products,setAllProducts]=useState()
 
   function filterProducts(items){
-    setAllProducts(items.filter(item=>item.typeofproduct==="Municipal Castings"))
+    setAllProducts(items.filter(item=>item.typeofproduct==="Municipal & Public Utility Castings"))
   }
-
+  
   async function fetchingMunicipalCastings(){
     try {
       const res = await FetchAllProducts()
-      // console.log(res)
+      console.log("mui",res)
       filterProducts(res)
     } catch (err) {
       console.log(err)

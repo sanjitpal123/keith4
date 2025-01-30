@@ -24,6 +24,7 @@ import Postaboutheading_content_image from "../services/AboutPage/Postmethods/Po
 import DeleteHistory from '../services/AboutPage/DeleteHistory';
 import AddNewHistory from '../services/AboutPage/Postmethods/AddHistory';
 import WhykeithPost from '../services/AboutPage/Postmethods/Postwhykeith';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 
 function AboutForm() {
   // State for modals
@@ -90,9 +91,31 @@ function AboutForm() {
     try {
       const response = await Postaboutheading_content_image(formData);
       console.log("Form submitted successfully:", response);
+      toast.success('Updated successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       setIsEditing(false);
     } catch (error) {
       console.error("Error submitting form:", error);
+      toast.error('Error updating!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
     } finally {
       setIsSaving(false);
     }
@@ -216,6 +239,7 @@ function AboutForm() {
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-gray-50 to-gray-100">
+      <ToastContainer></ToastContainer>
       <div className="max-w-7xl mx-auto p-1 sm:p-4 lg:p-8">
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
           {/* Header */}
@@ -459,7 +483,7 @@ function AboutForm() {
                       setWhyUsData({ ...whyUsData, title: e.target.value })
                     }
                     disabled={!isEditingWhyUs}
-                    className={`w-full px-3 py-2 text-sm rounded-lg border ${
+                    className={`w-full px-3 py-2  text-sm rounded-lg border ${
                       !isEditingWhyUs ? 'bg-gray-50' : 'bg-white'
                     } border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                   />

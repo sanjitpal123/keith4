@@ -235,14 +235,14 @@ const confirmDelete = async () => {
                     value={EditId === item._id ? Name : item?.title}
                     onChange={(e) => setName(e.target.value)}
                     readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    className="w-full bg-white p-2 border border-black rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   />
                   
                   <textarea
                     value={EditId === item._id ? Description : item.description}
                     onChange={(e) => SetDescription(e.target.value)}
                     readOnly={EditId !== item._id}
-                    className="w-full p-3 border rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    className="w-full p-3 bg-white border border-black rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     rows={3}
                   />
 
@@ -357,14 +357,14 @@ const confirmDelete = async () => {
                 value={Name||""}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter name"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-black text-black rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
 
               <textarea
                 placeholder="Enter description"
                 value={Description||""}
                 onChange={(e) => SetDescription(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 bg-white border-black text-black border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 rows={4}
               />
 

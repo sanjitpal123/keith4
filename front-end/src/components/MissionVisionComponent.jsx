@@ -69,7 +69,7 @@ function MissionVisionComponent({ data, title, description, image }) {
             name="header"
             value={aboutData?.header || ""}
             onChange={handleInputChange}
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            className="w-full p-3 bg-white border-black text-black border border-gray-300 rounded-lg"
             placeholder="Enter heading"
             disabled={!isEditing}
           />
@@ -82,7 +82,7 @@ function MissionVisionComponent({ data, title, description, image }) {
             name="content"
             value={aboutData?.content || ""}
             onChange={handleInputChange}
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            className="w-full p-3 bg-white border-black text-black border border-gray-300 rounded-lg"
             placeholder="Enter description"
             disabled={!isEditing}
           />

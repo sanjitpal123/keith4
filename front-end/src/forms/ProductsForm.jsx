@@ -5,6 +5,7 @@ import { ClipLoader } from "react-spinners";
 import DeleteQuality from "../services/Quality/DeletedItem";
 import { Plus, X, Edit2, Trash2, Save } from "lucide-react";
 import EditQuality from "../services/Quality/EditQuality";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 // Quality
 
 function QualityForm() {
@@ -18,6 +19,8 @@ function QualityForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
   const [editedFiles, setEditedFiles] = useState({});
+  const [isSaving,setIsSaving]=useState(false)
+  const [isDeleting,setIsDeleting]=useState(null)
 
   async function fetchquality() {
     setIsLoading(true);
@@ -57,8 +60,21 @@ function QualityForm() {
 
   const handleDelete = async (id) => {
     try {
+      setIsDeleting(id)
       const res = await DeleteQuality(id);
       console.log("deleted", res);
+      setIsDeleting(null)
+      toast.success('Deleted successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       fetchquality();
     } catch (error) {
       console.log("error", error);
@@ -68,7 +84,7 @@ function QualityForm() {
   const handleEdit = async (id) => {
     if (EditId === id) {
       const editedItem = allqualitydata.find((item) => item._id === id);
-
+      setIsSaving(true)
       // Prepare the form data
       const formData = new FormData();
       formData.append("name", Name || editedItem.name);
@@ -84,7 +100,18 @@ function QualityForm() {
       try {
         const res = await EditQuality(formData, id); // Send FormData to the API
         console.log("Edited Response:", res);
-
+        setIsSaving(false)
+        toast.success('Updated successfully!', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          });
         // Re-fetch data to update UI
         fetchquality();
 
@@ -162,6 +189,7 @@ function QualityForm() {
 
   return (
     <main className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+      <ToastContainer></ToastContainer>
       <div className="max-w-7xl mx-auto">
         <h1 className="text-xl md:text-4xl font-bold rounded-md py-2 text-center mb-8 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2  animate-fade-in">
           Products Manager
@@ -219,14 +247,14 @@ function QualityForm() {
                     value={EditId === item._id ? Name : item.name}
                     onChange={(e) => setName(e.target.value)}
                     readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    className="w-full p-2 border bg-white border-black rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   />
 
                   <textarea
                     value={EditId === item._id ? Description : item.description}
                     onChange={(e) => SetDescription(e.target.value)}
                     readOnly={EditId !== item._id}
-                    className="w-full p-3 border rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    className="w-full p-3 border bg-white border-black text-black rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     rows={3}
                   />
 
@@ -236,7 +264,7 @@ function QualityForm() {
                     }
                     onChange={(e) => handleTypeChange(e, item._id)}
                     disabled={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    className="w-full p-2 border bg-white border-black text-black rounded-lg bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   >
                     <option>Physical Testing</option>
                     <option>Wet Chemical Laboratory Equipment</option>
@@ -254,7 +282,10 @@ function QualityForm() {
                       className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
-                      Delete
+                      {
+                        isDeleting===item._id?"Deleting...":"Delete"
+
+                      }
                     </button>
                     <button
                       onClick={() => handleEdit(item._id)}
@@ -267,7 +298,9 @@ function QualityForm() {
                       {EditId === item._id ? (
                         <>
                           <Save className="w-4 h-4 mr-2" />
-                          Save
+                          {
+                            isSaving?"Saving...":"Save"
+                          }
                         </>
                       ) : (
                         <>
@@ -322,14 +355,14 @@ function QualityForm() {
                 value={Name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter name"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-black text-black rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
 
               <textarea
                 placeholder="Enter description"
                 value={Description}
                 onChange={(e) => SetDescription(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-black text-black rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 rows={4}
               />
 
