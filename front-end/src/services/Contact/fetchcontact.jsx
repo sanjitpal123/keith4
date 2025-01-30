@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-async function FetchCertificates() {
+async function FetchContact() {
     try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/certificate/getall`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/contact/get`, {
             withCredentials: true,  // Ensure cookies are sent with the request
         });
         
@@ -14,4 +14,4 @@ async function FetchCertificates() {
     }
 }
 
-export default FetchCertificates;
+export default FetchContact;

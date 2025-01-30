@@ -117,24 +117,7 @@ function AboutForm() {
     }
   };
 
-  const handleAddHistory = async (e) => {
-    e.preventDefault();
-    setIsAddingHistory(true);
-    try {
-      // Add your API call here to save new history
-      // const response = await AddHistory(newHistory);
-      // setHistoryData(prev => [...prev, response]);
-      console.log('historydata',newHistory)
-      const res=await AddNewHistory(newHistory);
-      alert(res.message);
-      setShowHistoryModal(false);
-      setNewHistory({ title: "", description: "", date: "" });
-    } catch (error) {
-      console.error("Error adding history:", error);
-    } finally {
-      setIsAddingHistory(false);
-    }
-  };
+ 
 
   const handleAddPrinciple = async (e) => {
     e.preventDefault();
@@ -167,35 +150,56 @@ function AboutForm() {
       setIsSavingWhyUs(false);
     }
   };
+  async function fetchData() {
+    setIsLoading(true);
+    try {
+      const aboutData = await FetchAboutHeading();
+      setAboutHeading(aboutData.header);
+      setAboutContent(aboutData.content);
+      setImagePreview(aboutData.image || "");
+
+      const history = await Fetchhistoryall();
+      setHistoryData(history);
+
+      const principles = await FetchCoreAndPrinciple();
+      setPrinciplesData(principles);
+
+      const whyKeith = await fetchwhykeith();
+      if (whyKeith && whyKeith.length > 0) {
+        setWhyUsData({
+          title: whyKeith[0]?.Title || "",
+          description: whyKeith[0]?.description || "",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  
+  const handleAddHistory = async (e) => {
+    e.preventDefault();
+    setIsAddingHistory(true);
+    try {
+      // Add your API call here to save new history
+      // const response = await AddHistory(newHistory);
+      // setHistoryData(prev => [...prev, response]);
+      console.log('historydata',newHistory)
+      const res=await AddNewHistory(newHistory);
+      alert(res.message);
+      setShowHistoryModal(false);
+      setNewHistory({ title: "", description: "", date: "" });
+      fetchData();
+    } catch (error) {
+      console.error("Error adding history:", error);
+    } finally {
+      setIsAddingHistory(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      try {
-        const aboutData = await FetchAboutHeading();
-        setAboutHeading(aboutData.header);
-        setAboutContent(aboutData.content);
-        setImagePreview(aboutData.image || "");
-
-        const history = await Fetchhistoryall();
-        setHistoryData(history);
-
-        const principles = await FetchCoreAndPrinciple();
-        setPrinciplesData(principles);
-
-        const whyKeith = await fetchwhykeith();
-        if (whyKeith && whyKeith.length > 0) {
-          setWhyUsData({
-            title: whyKeith[0]?.Title || "",
-            description: whyKeith[0]?.description || "",
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+   
     fetchData();
   }, []);
 

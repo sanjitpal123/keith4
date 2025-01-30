@@ -259,6 +259,8 @@ function HomeForm() {
         theme: "light",
         transition: Bounce,
         });
+        fetchbackroundimageofyear();
+
     }catch(error)
     {
       console.log('error',error)

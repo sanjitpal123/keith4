@@ -13,6 +13,7 @@ import CoreAndPricipleRouter from "./About/CorandPrinciple.js";
 import whykeithRouter from "./About/whyKeith.js";
 import QualityProductRouter from "./Quality/Qualityproduct.js";
 import emailRouter from "./EmailRouter.js";
+import ContactRouter from "./contact/contactRouter.js";
 const apirouter=express.Router();
 apirouter.use('/user',userrouter);
 apirouter.use('/navbar',navbarrouter);
@@ -26,5 +27,6 @@ apirouter.use('/history',HistoryRouter);
 apirouter.use('/coreandprinciple',CoreAndPricipleRouter);
 apirouter.use('/whykeith',whykeithRouter);
 apirouter.use('/qualityproduct',QualityProductRouter);
-apirouter.use('/email',emailRouter)
+apirouter.use('/email',emailRouter);
+apirouter.use('/contact',ContactRouter);
 export default apirouter;

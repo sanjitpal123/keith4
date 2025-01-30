@@ -10,6 +10,10 @@ import Getseo from "../services/FetchSeo";
 
 function About() {
     const [metadata, setMetadata] = useState(null);
+    const[whoweare, setwhoweare]=useState("");
+    async function fetchwhoweare(params) {
+        
+    }
 
     useEffect(() => {
         async function fetchSeo() {
