@@ -1,12 +1,23 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import 'flowbite/dist/flowbite.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import './index.css'
-import App from './App.jsx'
+import { SeoProvider } from "./components/seocontext"; // Import SeoProvider
+import { AuthProvider } from "./components/Context"; // Import AuthProvider
+import App from "./App"; // Import App correctly
 
-createRoot(document.getElementById('root')).render(
-    <HelmetProvider> 
-    <App />
-    </HelmetProvider> 
-)
+const Main = () => {
+  return (
+    <AuthProvider>
+      <SeoProvider> {/* Wrap inside SeoProvider */}
+        <HelmetProvider>
+          <Router>
+            <App />
+          </Router>
+        </HelmetProvider>
+      </SeoProvider>
+    </AuthProvider>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Main />);

@@ -1,31 +1,46 @@
 import { Helmet } from "react-helmet-async";
-import { useEffect, useState } from "react";
-
-import Getseo from "../services/FetchSeo";
+import { useContext, useEffect, useState } from "react";
+import { SeoContext } from "./seocontext"; 
+import { useLocation } from "react-router-dom";
 
 const SEO = () => {
-  const [metadatas, setmetadata]=useState(null);
-  async function fetchmetadata()
-  {
-    try{
-         const get=await Getseo();
-         console.log('get',get);
-    }catch(error)
-    {
-        console.log('error',error);
-    }
-  }
+  const seoData = useContext(SeoContext);
+  const location = useLocation();
+  const [metadata, setMetadata] = useState(null);
 
+  // Ensure seoData is available before using
   useEffect(() => {
-    fetchmetadata();
-  }, []);
+    if (seoData.length > 0) {
+      // Map route paths to SEO type
+      const routeSeoMap = {
+        "/": "Seo for home page",
+        "/products": "seo for product page",
+        "/about": "seo for about page",
+        "/contact": "seo for contact page",
+        "/infrastructure": "seo for infrastructure page",
+        "/quality": "seo for quality page",
+      };
+
+      const seoType = routeSeoMap[location.pathname];
+      console.log("Location Pathname: ", location.pathname);
+      console.log("SEO Type: ", seoType);
+
+      const matchedMetadata = seoData.find((item) => item.typesofseo === seoType);
+      console.log("Matched Metadata:", matchedMetadata);
+      setMetadata(matchedMetadata);
+    }
+  }, [seoData, location.pathname]);
+
+  if (!metadata) {
+    return null; // Or show a loading indicator while data is fetched
+  }
 
   return (
     <Helmet>
-      <title>{metadatas?.title}</title>
-      <meta name="description" content={metadatas?.description} />
-      <meta name="keywords" content={metadatas?.keywords} />
-      <meta name="author" content={metadatas?.author} />
+      <title>{metadata?.title || "Default Title"}</title>
+      <meta name="description" content={metadata?.description || "Default Description"} />
+      <meta name="keywords" content={metadata?.keywords || "default"} />
+      <meta name="author" content={metadata?.author || "default"} />
     </Helmet>
   );
 };
