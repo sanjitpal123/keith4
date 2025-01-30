@@ -124,6 +124,29 @@ function CertificateImages() {
     }
   };
   
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [selectedId, setSelectedId] = useState(null);
+
+const handleDeleteClick = (id) => {
+  setSelectedId(id);
+  setIsModalOpen(true);
+};
+
+const confirmDelete = async () => {
+  if (selectedId) {
+    try {
+      setDeleteLoading(true);
+      await DeleteCertificate(selectedId);
+      console.log("Deleted:", selectedId);
+      setDeleteLoading(false);
+      fetchquality();
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+  setIsModalOpen(false);
+  setSelectedId(null); // Reset the selected ID
+};
   const handleAdd = () => {
     setisadd(!isadd);
   };
@@ -225,43 +248,78 @@ function CertificateImages() {
 
                  
 
-                  <div className="flex flex-wrap justify-between gap-2 pt-2">
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
-                    >
-                      {
-                        deleteLoading?<span>Deleting...</span>:
-                        <>
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </>
-                      }
-                    </button>
-                    <button
-                      onClick={() => handleEdit(item._id)}
-                      className={`flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 ${
-                        EditId === item._id ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'
-                      } text-white rounded-lg transition-colors duration-300`}
-                    >
-                      {EditId === item._id ? (
-                        <>
-                        {
-                          saveLoading?<span>Loading...</span>:
-                          <>
-                          <Save className="w-4 h-4 mr-2" />
-                          Save
-                          </>
-                        }
-                        </>
-                      ) : (
-                        <>
-                          <Edit2 className="w-4 h-4 mr-2" />
-                          Edit
-                        </>
-                      )}
-                    </button>
-                  </div>
+<>
+    {/* Delete and Edit Buttons */}
+    <div className="flex flex-wrap justify-between gap-2 pt-2">
+      <button
+        disabled={deleteLoading}
+        onClick={() => handleDeleteClick(item._id)}
+        className="flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
+      >
+        {/* {deleteLoading ? (
+          <span>Deleting...</span>
+        ) : ( */}
+          <>
+            <Trash2 className="w-4 h-4 mr-2" />
+            Delete
+          </>
+        {/* )} */}
+      </button>
+
+      <button
+        disabled={saveLoading}
+        onClick={() => handleEdit(item._id)}
+        className={`flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 ${
+          EditId === item._id
+            ? "bg-green-500 hover:bg-green-600"
+            : "bg-blue-500 hover:bg-blue-600"
+        } text-white rounded-lg transition-colors duration-300`}
+      >
+        {EditId === item._id ? (
+          <>
+            {saveLoading ? (
+              <span>Saving...</span>
+            ) : (
+              <>
+                <Save className="w-4 h-4 mr-2" />
+                Save
+              </>
+            )}
+          </>
+        ) : (
+          <>
+            <Edit2 className="w-4 h-4 mr-2" />
+            Edit
+          </>
+        )}
+      </button>
+    </div>
+
+    {/* Delete Confirmation Modal (Only Opens for Selected Item) */}
+    {isModalOpen && selectedId === item._id && (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+          <h2 className="text-lg font-semibold text-gray-800">
+            Are you sure you want to delete this item?
+          </h2>
+          <div className="flex justify-center gap-4 mt-4">
+            <button
+              onClick={confirmDelete}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            >
+              Yes
+            </button>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors"
+            >
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+  </>
                 </div>
               </div>
             ))}
