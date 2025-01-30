@@ -39,12 +39,144 @@ function HomeForm() {
   const [yearbackroundiamgefile, setyearbackroundiamgefile]=useState();
   const [getyearbackround, setgetyearbackround]=useState("");
   const [isediting, setisediting]=useState("");
-  const[videofileoftour ,setvideofileoftour]=useState();
+  const[videofileoftour ,setvideofileoftour]=useState();//the tour video
   const[isTourSubmitting, setIsTourVideoSubmitting]=useState(false);
   const[previewvideoftour, setpreviewtour]=useState()
   const [isHeroSubmitting,setIsHeroSubmitting]=useState(false)
   const [isYearBackgroundSubmitting,setIsYearBackgroundSubmitting]=useState(false)
+  const [isCompressing,setIsCompressing]=useState()
+  const [hasCompressed,setHasCompressed]=useState(false)
+  const [compressionTap,setCompressionTap]=useState(0)
+
+  const startCompression = async () => {
+   
   
+    try {
+      // Compression function
+      if(hasCompressed) return toast.info('Please refresh the page for compressing again', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
+      if(!videofileoftour) return toast.error('Please choose a video file!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
+      setIsCompressing(true)
+      //to prevent multiple tap of compression
+      if(compressionTap>0) return console.log("Iwont letyou do you have already done")
+      setCompressionTap(value=>value+1)
+      const compressedBlob = await compressVideo(videofileoftour);
+      const previewUrl = URL.createObjectURL(compressedBlob);
+      
+      console.log("compression done")
+      // Set preview and prepare for upload
+      setIsCompressing(false)
+      setpreviewtour(previewUrl);
+
+      // Set the compressed blob in state for later submission
+      // setVideoToUpload(compressedBlob);
+      const compressedFile = new File([compressedBlob], `compressed_${videofileoftour.name}`, {
+        type: 'video/mp4', // or 'video/webm' depending on your compression
+        lastModified: Date.now()
+      }); // Get the selected file
+    setvideofileoftour(compressedFile)
+    toast.success('Video compressed succesfully!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      });
+      setHasCompressed(true)
+      setCompressionTap(0)
+    } catch (error) {
+      console.error("Video processing error:", error);
+      
+    }
+  };
+  
+  // Compression using browser APIs
+  const compressVideo = (file) => {
+    
+    return new Promise((resolve, reject) => {
+      const video = document.createElement('video');
+      video.muted = true; // Required for automatic playback
+      video.playsInline = true;
+      video.src = URL.createObjectURL(file);
+  
+      video.addEventListener('loadedmetadata', () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas dimensions (maintain aspect ratio)
+        const aspectRatio = video.videoWidth / video.videoHeight;
+        canvas.width = 1280;
+        canvas.height = canvas.width / aspectRatio;
+  
+        video.addEventListener('canplay', async () => {
+          const stream = canvas.captureStream(30);
+          const recorder = new MediaRecorder(stream, {
+            mimeType: 'video/webm;codecs=vp9',
+            bitsPerSecond: 2500000 // Higher bitrate for better compatibility
+          });
+  
+          const chunks = [];
+          recorder.ondataavailable = (e) => chunks.push(e.data);
+          recorder.onstop = () => {
+            const blob = new Blob(chunks, { type: 'video/webm' });
+            resolve(blob);
+          };
+  
+          // Start recording
+          recorder.start();
+  
+          // Render video frames continuously
+          const startTime = Date.now();
+          const drawFrame = () => {
+            if (video.paused || video.ended) return;
+            
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(drawFrame);
+          };
+  
+          video.play().then(() => {
+            drawFrame();
+            
+            // Record for actual video duration
+            setTimeout(() => {
+              recorder.stop();
+              stream.getTracks().forEach(track => track.stop());
+              URL.revokeObjectURL(video.src);
+            }, video.duration * 1000);
+          }).catch(reject);
+        });
+      });
+  
+      video.addEventListener('error', (error) => {
+        URL.revokeObjectURL(video.src);
+        reject(error);
+      });
+    });
+  };
+
 
   // for form 1
   const handleInputChange1 = (e) => {
@@ -57,7 +189,9 @@ function HomeForm() {
   function closeEditing1() {
     setIsEditing1(false);
   }
+
   const[tourvideodata, settourvideodata]=useState();
+
   // onchange of image of aboutus
   function handleimagechange(e) {
     console.log("e");
@@ -117,7 +251,7 @@ function HomeForm() {
       console.log("Posting response:", response);
       toast.success('Updated successfully!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
@@ -250,7 +384,7 @@ function HomeForm() {
       setIsYearBackgroundSubmitting(false)
       toast.success('Updated successfully!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
@@ -287,10 +421,21 @@ function HomeForm() {
   async function handlesubmitoftourvideo(e)
   {
     e.preventDefault();
+    if(isCompressing) return toast.warning('Video is being compressed, please wait!', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      });
     if(!videofileoftour)
-      return toast.error('Please choose a video', {
+      return toast.error('Please choose a video file', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
@@ -311,7 +456,7 @@ function HomeForm() {
     setIsTourVideoSubmitting(false);
     toast.success('Updated sucessfully!', {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true,
@@ -531,22 +676,28 @@ function HomeForm() {
                 controls
                 className="w-full rounded-lg shadow-lg border border-gray-200"
               ></video>
-              <p className="mt-4 text-sm text-gray-600">
-                *Please ensure the video is updated before saving.
+              <p className="mt-4 text-red-600 text-sm text-gray-600">
+                *Note: You may loose the audio if you compress.
               </p>
             </div>
           </div>
 
-          <div className="flex justify-center mt-6 gap-4">
+          <div className="flex justify-center text-xs sm:text-lg flex-wrap mt-6 gap-2">
             <button
               onClick={handlesubmitoftourvideo}
               disabled={isTourSubmitting}
-              className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="flex items-center gap-2 px-2 sm:px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               {
                 isTourSubmitting?"Submitting...":"Submit"
               } 
             </button>
+            <button  className="bg-yellow-500 rounded-lg px-2 sm:px-6 py-2 text-white" onClick={startCompression}>
+              {
+                hasCompressed?"Compressed":isCompressing?"Compressing...":"Compress"
+              }
+              
+              </button>
           </div>
         </div>
       </div>

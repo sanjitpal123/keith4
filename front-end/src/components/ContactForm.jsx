@@ -24,7 +24,7 @@ function ContactForm() {
       console.log('resemail',res);
       toast.success('Message sent successfully!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
@@ -39,7 +39,7 @@ function ContactForm() {
       console.log('error',error)
       toast.error('Error sending message!', {
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
