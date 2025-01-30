@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import FetchAboutHeading from "../services/AboutPage/FetchAboutHeading";
 import Fetchhistoryall from "../services/AboutPage/FetchHistory";
 import HistoryForm from "../components/HistoryForm";
@@ -39,9 +40,10 @@ function HomeForm() {
   const [getyearbackround, setgetyearbackround]=useState("");
   const [isediting, setisediting]=useState("");
   const[videofileoftour ,setvideofileoftour]=useState();
-  const[issubmiting, setissubmitting]=useState(false);
+  const[isTourSubmitting, setIsTourVideoSubmitting]=useState(false);
   const[previewvideoftour, setpreviewtour]=useState()
   const [isHeroSubmitting,setIsHeroSubmitting]=useState(false)
+  const [isYearBackgroundSubmitting,setIsYearBackgroundSubmitting]=useState(false)
   
 
   // for form 1
@@ -87,7 +89,7 @@ function HomeForm() {
   //posting about heading image content
   const handleSubmit1 = async (e) => {
     e.preventDefault();
-    setIsEditing1(false); // Save and exit edit mode
+     // Save and exit edit mode
     setIsHeroSubmitting(true)
     const formData = new FormData();
     console.log('content:', herocontent);
@@ -111,9 +113,21 @@ function HomeForm() {
   
     try {
       const response = await PostHero(formData);
-      alert(response.message)
+      // alert(response.message)
       console.log("Posting response:", response);
+      toast.success('Updated successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       setIsHeroSubmitting(false)
+      setIsEditing1(false);
     } catch (error) {
       console.error("Error during posting:", error);
     }
@@ -226,12 +240,25 @@ function HomeForm() {
   async function handleSubmit2(e)
   {
     e.preventDefault()
+    setIsYearBackgroundSubmitting(true)
     console.log('files',yearbackroundiamgefile)
     const formdata=new  FormData();
     formdata.append('image',yearbackroundiamgefile);
     try{
       const res=await postyearbackroundimage(formdata);
-      alert(res.message);
+      // alert(res.message);
+      setIsYearBackgroundSubmitting(false)
+      toast.success('Updated successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
     }catch(error)
     {
       console.log('error',error)
@@ -258,19 +285,43 @@ function HomeForm() {
   async function handlesubmitoftourvideo(e)
   {
     e.preventDefault();
+    if(!videofileoftour)
+      return toast.error('Please choose a video', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
+
     console.log('file',videofileoftour);
     const formdata=new FormData();
     formdata.append('video',videofileoftour);
-    setissubmitting(true)
+    setIsTourVideoSubmitting(true)
     try{
     const p=await PostTourVideo(formdata);
     console.log('p',p);
 
-    setissubmitting(false);
+    setIsTourVideoSubmitting(false);
+    toast.success('Updated sucessfully!', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      });
     }
     catch(error)
     {
-      setissubmitting(false);
+      setIsTourVideoSubmitting(false);
       console.log(error);
     }
  
@@ -299,6 +350,7 @@ function HomeForm() {
   return (
     <main className="p-1 sm:p-6 bg-gray-100 min-h-screen">
     {/* Form Container */}
+    <ToastContainer></ToastContainer>
     <div className="bg-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-5xl mx-auto">
       <h2 className="text-lg sm:text-3xl flex justify-center items-center sm:items-end gap-2 font-bold p-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-center">
         <span className="">
@@ -427,6 +479,7 @@ function HomeForm() {
                 type="submit"
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={handleSubmit1}
+                disabled={isHeroSubmitting}
               >{
                 isHeroSubmitting?"Submitting...":"Submit"
               }
@@ -464,6 +517,7 @@ function HomeForm() {
         <div className="bg-white shadow-md rounded-lg p-6">
           <input
             type="file"
+            required
             accept="video/*"
             onChange={changevideotour}
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
@@ -484,9 +538,12 @@ function HomeForm() {
           <div className="flex justify-center mt-6 gap-4">
             <button
               onClick={handlesubmitoftourvideo}
+              disabled={isTourSubmitting}
               className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-              <i className="lucide lucide-check-circle"></i> Submit
+              {
+                isTourSubmitting?"Submitting...":"Submit"
+              } 
             </button>
           </div>
         </div>
@@ -530,7 +587,9 @@ function HomeForm() {
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500"
                 onClick={handleSubmit2}
               >
-                Submit
+                {
+                  isYearBackgroundSubmitting?"Submitting...":"Submit"
+                }
               </button>
               <button
                 type="button"
