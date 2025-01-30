@@ -9,13 +9,15 @@ import Infrastructure from "./pages/Infrastructure";
 import Quality from "./pages/Quality";
 import AdminDashboard from "./pages/AdminDashboard";
 import Login from "./components/Login";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./components/Context"; 
-import SEO from "./components/Seo"; // Import SEO component
+import SEO from "./components/Seo"; 
+import './index.css'
 
 function App() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
+  
   const { user } = useContext(AuthContext);
 
   return (
