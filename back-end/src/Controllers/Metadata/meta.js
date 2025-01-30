@@ -93,35 +93,31 @@ export const updatemeta=async (req, res)=>{
      })
     }
 }
-export const deletemeta=async(req, res)=>{
-    try{
-        const id=req.params.id;
-        const meta=await MetadataModel.findById(id);
-        if(!meta)
-        {
+export const deletemeta = async (req, res) => {
+    try {
+        const id = req.params.id;
+        
+        // Directly try deleting
+        const deleted = await MetadataModel.findByIdAndDelete(id);
+
+        if (!deleted) {
             return res.status(404).json({
-                message:'Can not found meta',
-                success:false
-            })
+                message: 'Meta not found',
+                success: false
+            });
         }
-        const deleted=await MetadataModel.findByIdAndUpdate(id);
-        if(!deleted)
-        {
-            return res.status(401).json({
-                message:'can not delete',
-                success:false
-            })
-        }
-  
-        return res.status(201).json({
-            message:'successfully deleted',
-            success:true
-        })
-    }catch(error)
-    {
-      return res.status(501).json({
-        message:'Internal server error',
-        success:false
-      })
+
+        return res.status(200).json({
+            message: 'Successfully deleted',
+            deleted,
+            success: true
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal server error',
+            success: false,
+            error: error.message
+        });
     }
-}
+};
