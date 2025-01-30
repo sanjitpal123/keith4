@@ -1,5 +1,7 @@
 import { useState } from "react";
 import SendEmail from "../services/SendEMail";
+
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -20,10 +22,32 @@ function ContactForm() {
     try{
       const res=await SendEmail(formData);
       console.log('resemail',res);
+      toast.success('Message sent successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       setisloading(false)
     }catch(error)
     {
       console.log('error',error)
+      toast.error('Error sending message!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       setisloading(false)
     }
    
@@ -31,6 +55,7 @@ function ContactForm() {
   };
     return (
         <div className="max-w-7xl  mx-auto  mt-10 px-2 md:px-8 min-h-[100vh] space-y-9">
+            <ToastContainer></ToastContainer>
             <div className="">
                 <h1 className=" text-xl md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">Lets Connect </h1>
             </div>
@@ -67,7 +92,7 @@ function ContactForm() {
           value={formData.name}
           onChange={handleChange}
           className="w-full px-4 py-2.5 border bg-white text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-          placeholder="John Doe"
+          placeholder="Enter your name"
           required
         />
       </div>
@@ -88,7 +113,7 @@ function ContactForm() {
           value={formData.email}
           onChange={handleChange}
           className="w-full px-4 py-2.5 border bg-white text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-          placeholder="john@example.com"
+          placeholder="Enter your mail"
           required
         />
       </div>
@@ -111,7 +136,7 @@ function ContactForm() {
         value={formData.phone}
         onChange={handleChange}
         className="w-full px-4 py-2.5 border bg-white text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-        placeholder="+1 (555) 000-0000"
+        placeholder="Enter your contact no."
         required
       />
     </div>
@@ -144,7 +169,9 @@ function ContactForm() {
         type="submit"
         className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-semibold rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       >
-        Send Message
+        {
+          isloading?"Sending...":"Send Message"
+        }
       </button>
     </div>
   </div>

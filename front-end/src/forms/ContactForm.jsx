@@ -41,7 +41,19 @@ function ContactForm() {
   const [videofileoftour, setvideofileoftour] = useState();
   const [issubmiting, setissubmitting] = useState(false);
   const [previewvideoftour, setpreviewtour] = useState();
+  const [imagePreview,setImagePreview]=useState()
 
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
   // for form 1
   const handleInputChange1 = (e) => {
     const { name, value } = e.target;
@@ -335,20 +347,33 @@ function ContactForm() {
         {/* Hero Section */}
         <div className="border-b-2 border-gray-300">
           <h2 className="text-xl p-4 text-gray-800 font-semibold underline decoration-blue-500 decoration-2">
-            Hero Section
+            Address Section
           </h2>
           <form className="space-y-6 p-6" onSubmit={handleSubmit1}>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* hero Heading */}
               <div>
                 <label className="block text-gray-700 font-semibold mb-2">
-                  Hero Heading
+                  Title
                 </label>
                 <input
                   type="text"
                   value={heroheader}
                   onChange={(e) => setheroheader(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full p-3 border bg-white border-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  placeholder="Enter heading"
+                  disabled={!isEditing1}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Map Link
+                </label>
+                <input
+                  type="text"
+                  value={heroheader}
+                  onChange={(e) => setheroheader(e.target.value)}
+                  className="w-full p-3 border bg-white border-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
                   placeholder="Enter heading"
                   disabled={!isEditing1}
                 />
@@ -356,42 +381,43 @@ function ContactForm() {
 
               {/* hero Description */}
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Hero Description
-                </label>
-                <input
-                  type="text"
-                  value={herocontent}
-                  onChange={(e) => setherocontent(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                  placeholder="Enter description"
-                  disabled={!isEditing1}
-                />
-              </div>
+  <label className="block text-gray-700 font-semibold mb-2">
+    Address
+  </label>
+  <textarea
+    value={herocontent}
+    onChange={(e) => setherocontent(e.target.value)}
+    className="w-full p-3 border bg-white border-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm resize-none"
+    placeholder="Enter description"
+    disabled={!isEditing1}
+    rows={4} // Adjust rows as needed
+  />
+</div>
 
-              {/* HEro video */}
+
+              {/* adress images */}
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  Hero video
-                </label>
-                <input
-                  type="file"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
-                  onChange={handleVideoUpload}
-                  disabled={!isEditing1}
-                />
-                {videoPreview && (
-                  <div className="mt-4">
-                    <video
-                      controls
-                      src={videoPreview}
-                      className="w-full h-auto rounded-lg shadow-md"
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                )}
-              </div>
+  <label className="block text-gray-700 font-semibold mb-2">
+    Hero Image
+  </label>
+  <input
+    type="file"
+    accept="image/*"
+    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+    onChange={handleImageUpload} // Change function name accordingly
+    disabled={!isEditing1}
+  />
+  {imagePreview && (
+    <div className="mt-4">
+      <img
+        src={imagePreview}
+        alt="Preview"
+        className="w-full h-auto rounded-lg shadow-md"
+      />
+    </div>
+  )}
+</div>
+
             </div>
 
             {/* Submit & Cancel Buttons */}

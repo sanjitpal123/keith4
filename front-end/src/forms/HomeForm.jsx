@@ -426,7 +426,7 @@ function HomeForm() {
                 type="text"
                 value={heroheader}
                 onChange={(e) => setheroheader(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                className="w-full p-3 border bg-white border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
                 placeholder="Enter heading"
                 disabled={!isEditing1}
               />
@@ -441,7 +441,7 @@ function HomeForm() {
                 type="text"
                 value={herocontent}
                 onChange={(e) => setherocontent(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                className="w-full p-3 border bg-white border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
                 placeholder="Enter description"
                 disabled={!isEditing1}
               />
