@@ -3,6 +3,7 @@ import axios from "axios";
 import { Plus, Edit2, Trash2, X, Settings, Search } from 'lucide-react';
 import Getseo from '../services/FetchSeo';
 import Addnewseo from "../services/addnewseo";
+import EditMeta from "../services/EditMeta";
 
 const AdminSEO = () => {
   const [metadatas, setMetadata] = useState([]);
@@ -10,11 +11,13 @@ const AdminSEO = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [itemtoedit, setitemtoedit]=useState("");
   const [ isModalOpenforedit,setIsModalOpenforedit]=useState(false)
-  const [typesofseoforupdate, settypesofseoforupdate]=useState(itemtoedit?.typesofseo);
-  const [takingtitlefromedit, settakingtitlefromedit]=useState(itemtoedit?.title);
-  const[takingdescriptionfromedit, settakingdescriptionfromedit]=useState(itemtoedit?.description);
-  const [takingauthorfromedit, settakingauthorfromedit]=useState(itemtoedit?.author);
-  const[takingkeywordsfromedit, settakingkeywordsfromedit]=useState(itemtoedit?.keywords);
+  const [typesofseoforupdate, settypesofseoforupdate]=useState("");
+  const [takingtitlefromedit, settakingtitlefromedit]=useState("");
+  const[takingdescriptionfromedit, settakingdescriptionfromedit]=useState("");
+  const [takingauthorfromedit, settakingauthorfromedit]=useState("");
+  const[takingkeywordsfromedit, settakingkeywordsfromedit]=useState("");
+  const[idtoedit, setidtoedit]=useState(null);
+  const[updating, setupdating]=useState(false)
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -72,6 +75,12 @@ const AdminSEO = () => {
   {
     setIsModalOpenforedit(true)
     setitemtoedit(item);
+    setidtoedit(item._id)
+    settakingauthorfromedit(item.author);
+    settakingdescriptionfromedit(item.description);
+    settakingkeywordsfromedit(item.keywords);
+    settakingtitlefromedit(item.title);
+    settypesofseoforupdate(item.typesofseo)
     console.log('eidt',item)
   }
   
@@ -83,8 +92,31 @@ const AdminSEO = () => {
       item.description.toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
-  function handleSubmit1()
+ async function handleSubmit1(e)
   {
+    e.preventDefault();
+    const obj={
+      title:takingtitlefromedit,
+      description:takingdescriptionfromedit,
+      author:takingauthorfromedit,
+      typesofseo:typesofseoforupdate
+    }
+    
+    setupdating(true)
+    try{
+      
+      const res=await EditMeta(obj,idtoedit);
+      console.log('reseditto',res)
+
+      setupdating(false);
+      fetchMetadata();
+      setIsModalOpenforedit(false);
+    }catch(error)
+    {
+      console.log('error',error)
+      setupdating(false);
+
+    }
     console.log('title',takingtitlefromedit);
     console.log('des',takingdescriptionfromedit);
     console.log('type',typesofseoforupdate);
@@ -363,7 +395,7 @@ const AdminSEO = () => {
                 <div className="flex justify-end gap-3 pt-4">
                   <button
                     type="button"
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={() => setIsModalOpenforedit(false)}
                     className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                   >
                     Cancel
@@ -372,7 +404,7 @@ const AdminSEO = () => {
                     type="submit"
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
                   >
-                    Save SEO Entry
+                    {updating?'saving':'save'}
                   </button>
                 </div>
               </form>
