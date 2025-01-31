@@ -2,6 +2,7 @@ import Address from "../components/Address"
 import ContactForm from "../components/ContactForm"
 
 function Contact() {
+    
     return (
         <section className="pt-[150px] bg-gray-100 min-h-[100vh] py-5 px-4 md:px-8 ">
         {/* heading */}
