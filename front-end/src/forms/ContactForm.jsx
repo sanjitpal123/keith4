@@ -39,7 +39,7 @@ function ContactForm() {
     setIsLoading(true);
     try {
       const get = await FetchContact();
-      console.log("getcertificate", get);
+      console.log("getcontact", get);
       setallqualitydata(
         get.map((item) => ({
           ...item,
@@ -91,7 +91,11 @@ function ContactForm() {
       // Prepare the form data
       const formData = new FormData();
       formData.append("title", Name || editedItem.title);
-      formData.append("address", Description || editedItem.description);
+      formData.append("city",City || editedItem.city);
+      formData.append("country", Country || editedItem.Country);
+      formData.append("state", State || editedItem.state);
+      formData.append("pin",Pin || editedItem.pin);
+      formData.append("landmark", Landmark || editedItem.landmark)
       formData.append("findonmap",mapurl || editedItem.findonmap);
 
       if (editedFiles[id]) {
@@ -123,9 +127,9 @@ function ContactForm() {
       // Set the item for editing
       const selectedItem = allqualitydata.find((item) => item._id === id);
       setEditId(id);
-      setName(selectedItem.name);
-      SetDescription(selectedItem.description);
-      
+      setName(selectedItem.title);
+  
+      setmapurl(selectedItem.findonmap)
       setCity(selectedItem.city);
       setCountry(selectedItem.country);
       setState(selectedItem.state);
@@ -171,9 +175,13 @@ function ContactForm() {
   async function HandleAddNew() {
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("title", Name);
-    formData.append("address", Description);
-    formData.append("findonmap",mapurl);
+    formData.append("title", Name || editedItem.title);
+    formData.append("city",City || editedItem.city);
+    formData.append("country", Country || editedItem.Country);
+    formData.append("state", State || editedItem.state);
+    formData.append("pin",Pin || editedItem.pin);
+    formData.append("landmark", Landmark || editedItem.landmark)
+    formData.append("findonmap",mapurl || editedItem.findonmap);
 
     setIsLoading1(true);
     try {
@@ -292,12 +300,12 @@ function ContactForm() {
                     className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   />
 
-                  <textarea
+                  <input
                     value={EditId === item._id ? Landmark : item.landmark}
                     onChange={(e) => setLandmark(e.target.value)}
                     readOnly={EditId !== item._id}
-                    className="w-full p-3 border rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                    rows={3}
+                    className="w-full p-3 border rounded-lg text-center font-bold text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                   
                   />
 
                   <>
@@ -421,19 +429,47 @@ function ContactForm() {
               />
                 <input
                 type="text"
-                value={mapurl || ""}
-                onChange={(e) => setmapurl(e.target.value)}
-                placeholder="Enter map url"
+                value={City || ""}
+                onChange={(e) => setCity(e.target.value)}
+                placeholder="Enter City"
                 className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
-
-
-              <textarea
-                placeholder="Enter address"
-                value={Description || ""}
-                onChange={(e) => SetDescription(e.target.value)}
+                <input
+                type="text"
+                value={State || ""}
+                onChange={(e) => setState(e.target.value)}
+                placeholder="Enter state"
+                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+              />
+               <input
+                placeholder="Enter pin"
+                value={Pin || ""}
+                onChange={(e) => setPin(e.target.value)}
                 className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                rows={4}
+                
+              /> 
+               <input
+                placeholder="Enter Landmark"
+                value={Landmark || ""}
+                onChange={(e) => setLandmark(e.target.value)}
+                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                
+              />
+
+              <input
+                placeholder="Enter Country"
+                value={Country || ""}
+                onChange={(e) => setCountry(e.target.value)}
+                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                
+              />
+
+               <input
+                placeholder="Enter map url"
+                value={mapurl || ""}
+                onChange={(e) => setmapurl(e.target.value)}
+                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                
               />
 
               <button

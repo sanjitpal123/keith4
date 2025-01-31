@@ -9,9 +9,7 @@ const contactmodel=mongoose.Schema({
     landmark:{
         type:String
     },
-    area:{
-        type:String
-    },
+   
     city:{
         type:String
     },
