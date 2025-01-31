@@ -7,6 +7,7 @@ import Principles from "../components/Principles";
 import TeamManagement from "../components/TeamManagement";
 import WhyUs from "../components/WhyUs";
 import Getseo from "../services/FetchSeo";
+import LoadingPage from "./LoadingPage";
 
 function About() {
     const [metadata, setMetadata] = useState(null);
@@ -14,6 +15,12 @@ function About() {
     async function fetchwhoweare(params) {
         
     }
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+      setLoading(true);
+      const timeout = setTimeout(() => setLoading(false), 1000); // Simulate a delay
+      return () => clearTimeout(timeout);
+    }, [])
 
     useEffect(() => {
         async function fetchSeo() {
@@ -30,6 +37,9 @@ function About() {
     console.log('mea',metadata)
 
     return (
+        <>
+        {
+            loading?<LoadingPage></LoadingPage>:
         <section className="pt-[150px] bg-gray-100 px-4 md:px-8">
             {metadata && (
                 <Helmet>
@@ -76,6 +86,8 @@ function About() {
             <WhyUs />
             <Awards />
         </section>
+        }
+        </>
     );
 }
 

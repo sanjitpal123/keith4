@@ -10,15 +10,16 @@ import Testimonial from "../components/Testimonial";
 import VirtualTour from "../components/VirtualTour";
 import { useEffect } from "react";
 import Getbackroundyear from "../services/Homepage/fetchyearbacround";
+import LoadingPage from "./LoadingPage";
 
 function Home() {
     const [backgroundImage, setBackgroundImage] = useState(""); // State for storing image URL
-
+    
     async function Fetchyear() {
       try {
         const get = await Getbackroundyear();
         console.log("Fetched Background:", get);
-  
+        
         if (get?.image) {
           setBackgroundImage(get.image); // Update state with the image URL
         }
@@ -26,14 +27,25 @@ function Home() {
         console.log("Error fetching background:", error);
       }
     }
-  
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+      setLoading(true);
+      const timeout = setTimeout(() => setLoading(false), 1000); // Simulate a delay
+      return () => clearTimeout(timeout);
+    }, [])
     useEffect(() => {
       Fetchyear();
     }, []);
   return (
+    <>
+    {
+      loading ? <LoadingPage></LoadingPage>:
+
     <div className="flex flex-col items-center ">
       {/* <NavBar></NavBar> */}
       {/* Video Background Section */}
+      
+      
       <HeroSection></HeroSection>
       {/* short about */}
       <ShortAbout></ShortAbout>
@@ -74,8 +86,11 @@ function Home() {
       {/* testimonial */}
       <Testimonial></Testimonial>
 
-      {/* <Footer></Footer> */}
+      {/* <Footer></Footer> */}      
     </div>
+    }
+    </>
+
   );
 }
 

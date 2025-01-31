@@ -29,6 +29,7 @@ function ContactForm() {
   const [saveLoading, setSaveLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [City, setCity]=useState("");
+  const [Area, setArea]=useState("");
   const[State, setState]=useState("");
   const[Country, setCountry]=useState("");
   const[Pin , setPin]=useState("");
@@ -92,6 +93,7 @@ function ContactForm() {
       const formData = new FormData();
       formData.append("title", Name || editedItem.title);
       formData.append("city",City || editedItem.city);
+      formData.append("area",Area || editedItem.area);
       formData.append("country", Country || editedItem.Country);
       formData.append("state", State || editedItem.state);
       formData.append("pin",Pin || editedItem.pin);
@@ -131,6 +133,7 @@ function ContactForm() {
   
       setmapurl(selectedItem.findonmap)
       setCity(selectedItem.city);
+      setArea(selectedItem.area);
       setCountry(selectedItem.country);
       setState(selectedItem.state);
       setPin(selectedItem.pin);
@@ -175,13 +178,14 @@ function ContactForm() {
   async function HandleAddNew() {
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("title", Name || editedItem.title);
-    formData.append("city",City || editedItem.city);
-    formData.append("country", Country || editedItem.Country);
-    formData.append("state", State || editedItem.state);
-    formData.append("pin",Pin || editedItem.pin);
-    formData.append("landmark", Landmark || editedItem.landmark)
-    formData.append("findonmap",mapurl || editedItem.findonmap);
+    formData.append("title", Name );
+    formData.append("city",City );
+    formData.append("area",Area );
+    formData.append("country", Country );
+    formData.append("state", State );
+    formData.append("pin",Pin );
+    formData.append("landmark", Landmark )
+    formData.append("findonmap",mapurl );
 
     setIsLoading1(true);
     try {
@@ -221,7 +225,7 @@ function ContactForm() {
             {allqualitydata.map((item) => (
               <div
                 key={item._id}
-                className="bg-white shadow-xl rounded-xl overflow-hidden transform hover:scale-102 transition-all duration-300 hover:shadow-2xl"
+                className="bg-white max-h-[500px] relative overflow-y-auto shadow-xl rounded-xl overflow-hidden transform hover:scale-102 transition-all duration-300 hover:shadow-2xl"
               >
                 <div className="relative group">
                   <div className="aspect-w-16 aspect-h-9 overflow-hidden">
@@ -257,60 +261,87 @@ function ContactForm() {
                 </div>
 
                 <div className="sm:p-6 p-2 space-y-4">
-                  <input
-                    type="text"
-                    value={EditId === item._id ? Name : item?.title}
-                    onChange={(e) => setName(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? City : item?.city}
-                    onChange={(e) => setCity(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? Pin : item?.pin}
-                    onChange={(e) => setPin(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? State : item?.state}
-                    onChange={(e) => setState(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? Country : item?.country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                   <input
-                    type="text"
-                    value={EditId === item._id ? mapurl : item?.findonmap}
-                    onChange={(e) => setmapurl(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  value={EditId === item._id ? Name : item?.title}
+                  onChange={(e) => setName(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full bg-white border-gray-400 text-left p-2 border rounded-lg font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+                
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+                <input
+                  type="text"
+                  id="city"
+                  value={EditId === item._id ? City : item?.city}
+                  onChange={(e) => setCity(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full bg-white border-gray-400 text-left p-2 border rounded-lg font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+                <label htmlFor="area" className="block text-sm font-medium text-gray-700">Area</label>
+                <input
+                  type="text"
+                  id="area"
+                  value={EditId === item._id ? Area : item?.area}
+                  onChange={(e) => setArea(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full bg-white border-gray-400 text-left p-2 border rounded-lg font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
 
-                  <input
-                    value={EditId === item._id ? Landmark : item.landmark}
-                    onChange={(e) => setLandmark(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-3 border rounded-lg text-center font-bold text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                   
-                  />
+                <label htmlFor="pin" className="block text-sm font-medium text-gray-700">Pin</label>
+                <input
+                  type="text"
+                  id="pin"
+                  value={EditId === item._id ? Pin : item?.pin}
+                  onChange={(e) => setPin(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full p-2 border bg-white border-gray-400 rounded-lg text-left font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
 
-                  <>
+                <label htmlFor="state" className="block text-sm font-medium text-gray-700">State</label>
+                <input
+                  type="text"
+                  id="state"
+                  value={EditId === item._id ? State : item?.state}
+                  onChange={(e) => setState(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full bg-white border-gray-400 text-left p-2 border rounded-lg font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+
+                <label htmlFor="country" className="block text-sm font-medium text-gray-700">Country</label>
+                <input
+                  type="text"
+                  id="country"
+                  value={EditId === item._id ? Country : item?.country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full bg-white border-gray-400 text-left p-2 border rounded-lg font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+
+                <label htmlFor="mapurl" className="block text-sm font-medium text-gray-700">Map URL</label>
+                <input
+                  type="text"
+                  id="mapurl"
+                  value={EditId === item._id ? mapurl : item?.findonmap}
+                  onChange={(e) => setmapurl(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  className="w-full bg-white border-gray-400 text-left p-2 border rounded-lg font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+
+                <label htmlFor="landmark" className="block text-sm font-medium text-gray-700">Landmark</label>
+                <input
+                  value={EditId === item._id ? Landmark : item.landmark}
+                  onChange={(e) => setLandmark(e.target.value)}
+                  readOnly={EditId !== item._id}
+                  id="landmark"
+                  className="w-full bg-white border-gray-400 text-left p-3 border rounded-lg font-bold text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+
+                <>
                     {/* Delete and Edit Buttons */}
-                    <div className="flex flex-wrap justify-between gap-2 pt-2">
+                    <div className=" flex flex-wrap justify-between gap-2 pt-2">
                       <button
                         disabled={deleteLoading}
                         onClick={() => handleDeleteClick(item._id)}
@@ -387,12 +418,12 @@ function ContactForm() {
         )}
 
         <div
-          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
+          className={`fixed inset-0  bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
             isadd ? "opacity-100 z-50" : "opacity-0 pointer-events-none"
           }`}
         >
           <div
-            className={`bg-white rounded-xl p-6 m-4 max-w-lg w-full transform transition-all duration-300 ${
+            className={`bg-white max-h-[80vh] overflow-y-auto py-2 px-2  rounded-xl sm:p-6 m-4 max-w-lg w-full transform transition-all duration-300 ${
               isadd ? "scale-100 translate-y-0" : "scale-95 translate-y-4"
             }`}
           >
@@ -411,7 +442,7 @@ function ContactForm() {
                 <input
                   type="file"
                   onChange={(e) => setfile(e.target.files[0])}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  className="absolute bg-white inset-0 opacity-0 cursor-pointer"
                 />
                 <div className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center group-hover:border-blue-500 transition-colors duration-300">
                   <span className="text-gray-500 group-hover:text-blue-500">
@@ -425,34 +456,41 @@ function ContactForm() {
                 value={Name || ""}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter title"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-gray-400  rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
                 <input
                 type="text"
                 value={City || ""}
                 onChange={(e) => setCity(e.target.value)}
                 placeholder="Enter City"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border  bg-white border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
                 <input
                 type="text"
                 value={State || ""}
                 onChange={(e) => setState(e.target.value)}
                 placeholder="Enter state"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               />
                <input
                 placeholder="Enter pin"
                 value={Pin || ""}
                 onChange={(e) => setPin(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-gray-400 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 
               /> 
                <input
                 placeholder="Enter Landmark"
                 value={Landmark || ""}
                 onChange={(e) => setLandmark(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-gray-400 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                
+              />
+               <input
+                placeholder="Enter Area"
+                value={Area || ""}
+                onChange={(e) => setArea(e.target.value)}
+                className="w-full p-3 border bg-white border-gray-400 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 
               />
 
@@ -460,7 +498,7 @@ function ContactForm() {
                 placeholder="Enter Country"
                 value={Country || ""}
                 onChange={(e) => setCountry(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-gray-400 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 
               />
 
@@ -468,7 +506,7 @@ function ContactForm() {
                 placeholder="Enter map url"
                 value={mapurl || ""}
                 onChange={(e) => setmapurl(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                className="w-full p-3 border bg-white border-gray-400 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                 
               />
 
@@ -493,7 +531,7 @@ function ContactForm() {
           </div>
         </div>
 
-        <div className="fixed bottom-8 right-8">
+        <div className="fixed bottom-5 sm:bottom-8 right-8">
           <button
             onClick={handleAdd}
             className="group bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300"
