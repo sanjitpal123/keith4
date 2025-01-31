@@ -213,7 +213,7 @@ function QualityForm() {
                     <img
                       src={item.previewImage || item.image}
                       alt={item.name}
-                      className="w-full h-48 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-48 object-contain transform group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                   {EditId === item._id && (
@@ -276,7 +276,7 @@ function QualityForm() {
                     <option>Municipal & Public Utility Castings</option>
                   </select>
 
-                  <div className="flex justify-between gap-4 pt-2">
+                  <div className="flex flex-wrap justify-between gap-4 pt-2">
                     <button
                       onClick={() => handleDelete(item._id)}
                       className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"

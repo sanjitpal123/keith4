@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import FetchQuality from "../services/Quality/FetchQuality";
+import LoadingPage from "./LoadingPage";
 
 function Quality() {
   const [QualityData, setQualityData] = useState([]);
@@ -22,10 +23,19 @@ function Quality() {
   const sandtestingmachine = QualityData?.filter(
     (item) => item.typeofproduct=== "SAND TESTING EQUIPMENT"
   );
+  const [loading, setLoading] = useState(true);
+    useEffect(() => {
+      setLoading(true);
+      const timeout = setTimeout(() => setLoading(false), 1000); // Simulate a delay
+      return () => clearTimeout(timeout);
+    }, [])
   useEffect(() => {
     fetchquality();
   }, []);
   return (
+    <>
+    {
+      loading?<LoadingPage></LoadingPage>:
     <div className="w-full min-h-screen pt-[120px] bg-gray-100 sm:pt-[150px] flex flex-col items-center py-10">
       <h1 className=" text-xl self-start ml-4 sm:ml-16 md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">
         QUALITY
@@ -116,6 +126,8 @@ function Quality() {
 
      
     </div>
+    }
+    </>
   );
 }
 

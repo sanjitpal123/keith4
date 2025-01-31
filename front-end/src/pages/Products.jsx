@@ -4,10 +4,21 @@ import RailwayCastings from "./RailwayCastings"
 import MunicipalCastings from "./MunicipalCastings"
 import AgriculturalCastings from "./AgriculturalCastings"
 import MiscellaneousCastings from "./MiscellaneousCastings"
+import ErrorPage from "./ErrorPage"
+import { useEffect, useState } from "react"
+import LoadingPage from "./LoadingPage"
 
 function Products() {
+  const [loading, setLoading] = useState(true);
+      useEffect(() => {
+        setLoading(true);
+        const timeout = setTimeout(() => setLoading(false), 1000); // Simulate a delay
+        return () => clearTimeout(timeout);
+      }, [])
   const isRootPath = location.pathname === "/products";
     return (
+      <>{
+      loading?<LoadingPage></LoadingPage>:
       <div
       className="w-full min-h-screen flex flex-col  items-center pt-[120px] lg:pt-[150px] py-10 text-gray-800 bg-gray-100"
       >
@@ -34,6 +45,7 @@ function Products() {
         <Route path="municipal-public-utility-castings" element={<MunicipalCastings />} />
         <Route path="agricultural-castings" element={<AgriculturalCastings />} />
         <Route path="miscellaneous-castings" element={<MiscellaneousCastings />} />
+        {/* <Route path="*" element={<ErrorPage/>} /> */}
       </Routes>
       {/* enquiry now */}
         <div className="bg-[#FD5D14] p-3 sm:p-6 text-xs sm:text-lg rounded-xl fixed right-2 bottom-6 sm:right-6 text-white">
@@ -46,7 +58,8 @@ function Products() {
               </Link>
              </button>
         </div>
-    </div>
+    </div>}
+      </>
     )
 }
 //hi

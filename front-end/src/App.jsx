@@ -13,6 +13,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "./components/Context"; 
 import SEO from "./components/Seo"; 
 import './index.css'
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   const location = useLocation();
@@ -34,6 +35,8 @@ function App() {
           <Route path="/quality" element={<Quality />} />
           <Route path="/admin/*" element={user ? <AdminDashboard /> : <Login />} />
           <Route path="/login" element={<Login />} />
+
+          <Route path="*" element={<ErrorPage/>}/>
         </Routes>
       </div>
       {!isAdminRoute && <Footer />}
