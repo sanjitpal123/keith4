@@ -23,7 +23,7 @@ function App() {
   return (
     <>
       {!isAdminRoute && <NavBar />}
-      <div className="overflow-x-hidden">
+      <div className={`overflow-x-hidden ${location.pathname==="/"?"":"bg-gray-100"} `}>
         <SEO /> {/* Include SEO without props */}
         <Routes>
           <Route path="/" element={<Home />} />
