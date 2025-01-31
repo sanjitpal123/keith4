@@ -18,7 +18,7 @@ function ContactForm() {
   const [allqualitydata, setallqualitydata] = useState([]);
   const [EditId, setEditId] = useState(null);
   const [Description, SetDescription] = useState("");
-  const[mapurl, setmapurl]=useState("");
+  const [mapurl, setmapurl] = useState("");
   const [file, setfile] = useState(null);
   const [typesofproduct, settypesofproduct] = useState("Physical Testing");
   const [Name, setName] = useState("");
@@ -28,12 +28,11 @@ function ContactForm() {
   const [editedFiles, setEditedFiles] = useState({});
   const [saveLoading, setSaveLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [City, setCity]=useState("");
-  const[State, setState]=useState("");
-  const[Country, setCountry]=useState("");
-  const[Pin , setPin]=useState("");
-  const[Landmark, setLandmark]=useState("");
-
+  const [City, setCity] = useState("");
+  const [State, setState] = useState("");
+  const [Country, setCountry] = useState("");
+  const [Pin, setPin] = useState("");
+  const [Landmark, setLandmark] = useState("");
 
   async function fetchquality() {
     setIsLoading(true);
@@ -88,28 +87,23 @@ function ContactForm() {
     if (EditId === id) {
       const editedItem = allqualitydata.find((item) => item._id === id);
       setSaveLoading(true);
-      // Prepare the form data
       const formData = new FormData();
       formData.append("title", Name || editedItem.title);
-      formData.append("city",City || editedItem.city);
+      formData.append("city", City || editedItem.city);
       formData.append("country", Country || editedItem.Country);
       formData.append("state", State || editedItem.state);
-      formData.append("pin",Pin || editedItem.pin);
-      formData.append("landmark", Landmark || editedItem.landmark)
-      formData.append("findonmap",mapurl || editedItem.findonmap);
+      formData.append("pin", Pin || editedItem.pin);
+      formData.append("landmark", Landmark || editedItem.landmark);
+      formData.append("findonmap", mapurl || editedItem.findonmap);
 
       if (editedFiles[id]) {
-        formData.append("image", editedFiles[id]); // Append the edited file if exists
+        formData.append("image", editedFiles[id]);
       }
 
       try {
-        const res = await EditContact(formData, id); // Send FormData to the API
+        const res = await EditContact(formData, id);
         console.log("Edited Response:", res);
-
-        // Re-fetch data to update UI
         fetchquality();
-
-        // Reset states
         setSaveLoading(false);
         setEditId(null);
         setName("");
@@ -124,17 +118,15 @@ function ContactForm() {
         console.error("Error updating item:", error);
       }
     } else {
-      // Set the item for editing
       const selectedItem = allqualitydata.find((item) => item._id === id);
       setEditId(id);
       setName(selectedItem.title);
-  
-      setmapurl(selectedItem.findonmap)
+      setmapurl(selectedItem.findonmap);
       setCity(selectedItem.city);
       setCountry(selectedItem.country);
       setState(selectedItem.state);
       setPin(selectedItem.pin);
-      setLandmark(selectedItem.landmark)
+      setLandmark(selectedItem.landmark);
 
       if (!editedFiles[id]) {
         setEditedFiles((prev) => ({
@@ -166,8 +158,9 @@ function ContactForm() {
       }
     }
     setIsModalOpen(false);
-    setSelectedId(null); // Reset the selected ID
+    setSelectedId(null);
   };
+
   const handleAdd = () => {
     setisadd(!isadd);
   };
@@ -175,13 +168,13 @@ function ContactForm() {
   async function HandleAddNew() {
     const formData = new FormData();
     formData.append("image", file);
-    formData.append("title", Name || editedItem.title);
-    formData.append("city",City || editedItem.city);
-    formData.append("country", Country || editedItem.Country);
-    formData.append("state", State || editedItem.state);
-    formData.append("pin",Pin || editedItem.pin);
-    formData.append("landmark", Landmark || editedItem.landmark)
-    formData.append("findonmap",mapurl || editedItem.findonmap);
+    formData.append("title", Name);
+    formData.append("city", City);
+    formData.append("country", Country);
+    formData.append("state", State);
+    formData.append("pin", Pin);
+    formData.append("landmark", Landmark);
+    formData.append("findonmap", mapurl);
 
     setIsLoading1(true);
     try {
@@ -190,6 +183,12 @@ function ContactForm() {
       setisadd(false);
       setName("");
       SetDescription("");
+      setCity("");
+      setCountry("");
+      setPin("");
+      setLandmark("");
+      setmapurl("");
+      setState("");
       setfile(null);
       fetchquality();
     } catch (error) {
@@ -257,73 +256,105 @@ function ContactForm() {
                 </div>
 
                 <div className="sm:p-6 p-2 space-y-4">
-                  <input
-                    type="text"
-                    value={EditId === item._id ? Name : item?.title}
-                    onChange={(e) => setName(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? City : item?.city}
-                    onChange={(e) => setCity(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? Pin : item?.pin}
-                    onChange={(e) => setPin(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? State : item?.state}
-                    onChange={(e) => setState(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    value={EditId === item._id ? Country : item?.country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
-                   <input
-                    type="text"
-                    value={EditId === item._id ? mapurl : item?.findonmap}
-                    onChange={(e) => setmapurl(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Title
+                    </label>
+                    <input
+                      type="text"
+                      value={EditId === item._id ? Name : item?.title}
+                      onChange={(e) => setName(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
 
-                  <input
-                    value={EditId === item._id ? Landmark : item.landmark}
-                    onChange={(e) => setLandmark(e.target.value)}
-                    readOnly={EditId !== item._id}
-                    className="w-full p-3 border rounded-lg text-center font-bold text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                   
-                  />
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      value={EditId === item._id ? City : item?.city}
+                      onChange={(e) => setCity(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      PIN Code
+                    </label>
+                    <input
+                      type="text"
+                      value={EditId === item._id ? Pin : item?.pin}
+                      onChange={(e) => setPin(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      State
+                    </label>
+                    <input
+                      type="text"
+                      value={EditId === item._id ? State : item?.state}
+                      onChange={(e) => setState(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Country
+                    </label>
+                    <input
+                      type="text"
+                      value={EditId === item._id ? Country : item?.country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Map URL
+                    </label>
+                    <input
+                      type="text"
+                      value={EditId === item._id ? mapurl : item?.findonmap}
+                      onChange={(e) => setmapurl(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Landmark
+                    </label>
+                    <input
+                      value={EditId === item._id ? Landmark : item.landmark}
+                      onChange={(e) => setLandmark(e.target.value)}
+                      readOnly={EditId !== item._id}
+                      className="w-full p-3 border rounded-lg text-center font-bold text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                    />
+                  </div>
 
                   <>
-                    {/* Delete and Edit Buttons */}
                     <div className="flex flex-wrap justify-between gap-2 pt-2">
                       <button
                         disabled={deleteLoading}
                         onClick={() => handleDeleteClick(item._id)}
                         className="flex items-center text-sm sm:text-lg px-2 sm:px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-300"
                       >
-                        {/* {deleteLoading ? (
-          <span>Deleting...</span>
-        ) : ( */}
-                        <>
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Delete
-                        </>
-                        {/* )} */}
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
                       </button>
 
                       <button
@@ -355,7 +386,6 @@ function ContactForm() {
                       </button>
                     </div>
 
-                    {/* Delete Confirmation Modal (Only Opens for Selected Item) */}
                     {isModalOpen && selectedId === item._id && (
                       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
                         <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
@@ -387,7 +417,7 @@ function ContactForm() {
         )}
 
         <div
-          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${
+          className={`fixed inset-0 bg-black bg-opacity-50 h-[80vh] overflow-scroll flex items-center justify-center transition-opacity duration-300 ${
             isadd ? "opacity-100 z-50" : "opacity-0 pointer-events-none"
           }`}
         >
@@ -407,70 +437,110 @@ function ContactForm() {
             </div>
 
             <div className="space-y-4">
-              <div className="relative group">
-                <input
-                  type="file"
-                  onChange={(e) => setfile(e.target.files[0])}
-                  className="absolute inset-0 opacity-0 cursor-pointer"
-                />
-                <div className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center group-hover:border-blue-500 transition-colors duration-300">
-                  <span className="text-gray-500 group-hover:text-blue-500">
-                    {file ? file.name : "Click to upload image"}
-                  </span>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Upload Image
+                </label>
+                <div className="relative group">
+                  <input
+                    type="file"
+                    onChange={(e) => setfile(e.target.files[0])}
+                    className="absolute inset-0 opacity-0 cursor-pointer"
+                  />
+                  <div className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center group-hover:border-blue-500 transition-colors duration-300">
+                    <span className="text-gray-500 group-hover:text-blue-500">
+                      {file ? file.name : "Click to upload image"}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <input
-                type="text"
-                value={Name || ""}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Enter title"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Title
+                </label>
                 <input
-                type="text"
-                value={City || ""}
-                onChange={(e) => setCity(e.target.value)}
-                placeholder="Enter City"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              />
+                  type="text"
+                  value={Name || ""}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter title"
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  City
+                </label>
                 <input
-                type="text"
-                value={State || ""}
-                onChange={(e) => setState(e.target.value)}
-                placeholder="Enter state"
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              />
-               <input
-                placeholder="Enter pin"
-                value={Pin || ""}
-                onChange={(e) => setPin(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                
-              /> 
-               <input
-                placeholder="Enter Landmark"
-                value={Landmark || ""}
-                onChange={(e) => setLandmark(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                
-              />
+                  type="text"
+                  value={City || ""}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Enter City"
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
 
-              <input
-                placeholder="Enter Country"
-                value={Country || ""}
-                onChange={(e) => setCountry(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  State
+                </label>
+                <input
+                  type="text"
+                  value={State || ""}
+                  onChange={(e) => setState(e.target.value)}
+                  placeholder="Enter state"
+                  className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
 
-               <input
-                placeholder="Enter map url"
-                value={mapurl || ""}
-                onChange={(e) => setmapurl(e.target.value)}
-                className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-                
-              />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  PIN Code
+                </label>
+                <input
+                  placeholder="Enter pin"
+                  value={Pin || ""}
+                  onChange={(e) => setPin(e.target.value)}
+                  className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Landmark
+                </label>
+                <input
+                  placeholder="Enter Landmark"
+                  value={Landmark || ""}
+                  onChange={(e) => setLandmark(e.target.value)}
+                  className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Country
+                </label>
+                <input
+                  placeholder="Enter Country"
+                  value={Country || ""}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Map URL
+                </label>
+                <input
+                  placeholder="Enter map url"
+                  value={mapurl || ""}
+                  onChange={(e) => setmapurl(e.target.value)}
+                  className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                />
+              </div>
 
               <button
                 className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"

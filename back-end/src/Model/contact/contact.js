@@ -16,6 +16,9 @@ const contactmodel=mongoose.Schema({
     state:{
         type:String
     },
+    area:{
+        type:String
+    },
     pin:{
         type:String
     },

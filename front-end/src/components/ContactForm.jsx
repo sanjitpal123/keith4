@@ -33,6 +33,7 @@ function ContactForm() {
         theme: "light",
         transition: Bounce,
         });
+        setFormData({name:"",email:"",phone:"", message:""})
       setisloading(false)
     }catch(error)
     {
