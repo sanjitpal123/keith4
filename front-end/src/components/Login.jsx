@@ -29,8 +29,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-navy-900 to-navy-800 flex items-center justify-center p-4">
-      <div className="w-full max-w-6xl flex rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+    <div className="min-h-screen mt-[100px] bg-gradient-to-br from-navy-900 to-navy-800 flex items-center justify-center p-4">
+      <div className="w-full max-w-6xl flex  rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
         {/* Left side - Login Form */}
         <div className="w-full md:w-1/2 bg-white p-8 lg:p-12">
           <div className="space-y-8">
@@ -49,7 +49,7 @@ function Login() {
                     type="email"
                     value={Email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-500 transition-all hover:border-orange-200"
+                    className="w-full pl-12 pr-4 py-3 border bg-white border-gray-200 rounded-lg focus:outline-none focus:border-orange-500 transition-all hover:border-orange-200"
                     placeholder="Email address"
                     required
                   />
@@ -63,7 +63,7 @@ function Login() {
                     type="password"
                     value={Password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:border-orange-500 transition-all hover:border-orange-200"
+                    className="w-full pl-12 pr-4 py-3 border bg-white border-gray-200 rounded-lg focus:outline-none focus:border-orange-500 transition-all hover:border-orange-200"
                     placeholder="Password"
                     required
                   />
@@ -95,15 +95,10 @@ function Login() {
         </div>
 
         {/* Right side - Animation */}
-        <div className="hidden md:block md:w-1/2 bg-gradient-to-br from-blue-900 to-navy-900 p-12">
-          <div className="h-full flex items-center justify-center">
-            <img
-              src="https://cdn.dribbble.com/users/1314475/screenshots/3633228/media/1b8b7556f19af92b1653e4e175b3aa2f.gif"
-              alt="Login Animation"
-              className="max-w-full h-auto rounded-2xl shadow-lg animate-float"
-            />
-          </div>
+        <div className="hidden md:flex md:w-1/2 bg-white  p-12 justify-center items-center">
+          <img className='max-w-[350px]' src="/assets/images/login.jpg" alt="" />
         </div>
+
       </div>
     </div>
   );

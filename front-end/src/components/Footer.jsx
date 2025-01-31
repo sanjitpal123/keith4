@@ -17,11 +17,22 @@ function Footer() {
                     <img src="/assets/images/logo.png" alt="" />
 
                 </div>
-                <p>
-                    Keith Ceramic.
-                    <br />
-                    Providing reliable tech since 1992
-                </p>
+                <div className="text-left">
+                    <p className="text-lg font-semibold">Keith Ceramic</p>
+                    <p className="text-sm">Providing reliable tech since 1992</p>
+                    <p className="text-xs mt-2">
+                    © Keith Ceramic. All Rights Reserved.<br />
+                    Developed by{' '}
+                    <a
+                        href="https://www.thinknxtmedia.com/"
+                        className="text-blue-400 hover:underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Think nXt Media
+                    </a>
+                    </p>
+                </div>
                 </aside>
                 <nav>
                 <h6 className="text-slate-50 footer-title">Services</h6>
