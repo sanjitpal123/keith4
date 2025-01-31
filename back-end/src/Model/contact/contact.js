@@ -6,9 +6,23 @@ const contactmodel=mongoose.Schema({
     title:{
         type:String
     },
-    address:{
+    landmark:{
         type:String
-
+    },
+    area:{
+        type:String
+    },
+    city:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    pin:{
+        type:String
+    },
+    country:{
+        type:String
     },
     findonmap:{
         type:String

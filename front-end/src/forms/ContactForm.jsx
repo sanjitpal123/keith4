@@ -28,6 +28,12 @@ function ContactForm() {
   const [editedFiles, setEditedFiles] = useState({});
   const [saveLoading, setSaveLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [City, setCity]=useState("");
+  const[State, setState]=useState("");
+  const[Country, setCountry]=useState("");
+  const[Pin , setPin]=useState("");
+  const[Landmark, setLandmark]=useState("");
+
 
   async function fetchquality() {
     setIsLoading(true);
@@ -119,7 +125,12 @@ function ContactForm() {
       setEditId(id);
       setName(selectedItem.name);
       SetDescription(selectedItem.description);
-      settypesofproduct(selectedItem.typeofproduct);
+      
+      setCity(selectedItem.city);
+      setCountry(selectedItem.country);
+      setState(selectedItem.state);
+      setPin(selectedItem.pin);
+      setLandmark(selectedItem.landmark)
 
       if (!editedFiles[id]) {
         setEditedFiles((prev) => ({
@@ -245,6 +256,34 @@ function ContactForm() {
                     readOnly={EditId !== item._id}
                     className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                   />
+                  <input
+                    type="text"
+                    value={EditId === item._id ? City : item?.city}
+                    onChange={(e) => setCity(e.target.value)}
+                    readOnly={EditId !== item._id}
+                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                  />
+                  <input
+                    type="text"
+                    value={EditId === item._id ? Pin : item?.pin}
+                    onChange={(e) => setPin(e.target.value)}
+                    readOnly={EditId !== item._id}
+                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                  />
+                  <input
+                    type="text"
+                    value={EditId === item._id ? State : item?.state}
+                    onChange={(e) => setState(e.target.value)}
+                    readOnly={EditId !== item._id}
+                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                  />
+                  <input
+                    type="text"
+                    value={EditId === item._id ? Country : item?.country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    readOnly={EditId !== item._id}
+                    className="w-full p-2 border rounded-lg text-center font-semibold focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                  />
                    <input
                     type="text"
                     value={EditId === item._id ? mapurl : item?.findonmap}
@@ -254,8 +293,8 @@ function ContactForm() {
                   />
 
                   <textarea
-                    value={EditId === item._id ? Description : item.address}
-                    onChange={(e) => SetDescription(e.target.value)}
+                    value={EditId === item._id ? Landmark : item.landmark}
+                    onChange={(e) => setLandmark(e.target.value)}
                     readOnly={EditId !== item._id}
                     className="w-full p-3 border rounded-lg text-sm resize-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                     rows={3}

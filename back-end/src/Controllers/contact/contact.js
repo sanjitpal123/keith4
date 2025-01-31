@@ -6,10 +6,10 @@ import exp from 'constants';
 // Create a new contact office
 export const addContactOffice = async (req, res) => {
   try {
-    const { title, findonmap, address } = req.body;
+    const { title, findonmap, pin, landmark, area, city, state,country} = req.body;
     
     // Check if required fields are missing
-    if (!title || !findonmap || !address) {
+    if (!title || !findonmap ) {
       return res.status(400).json({
         message: 'All fields are required!',
         success: false
@@ -21,7 +21,7 @@ export const addContactOffice = async (req, res) => {
    const imagpath=uploaded.secure_url;
       
     // Create the new contact office
-    const newOffice = new ContactOffice({ title, findonmap, address , image:imagpath});
+    const newOffice = new ContactOffice({ title, findonmap ,pin, state,landmark,area,city , country,image:imagpath});
     await newOffice.save();
 
     return res.status(201).json({
@@ -42,10 +42,10 @@ export const addContactOffice = async (req, res) => {
 export const updateContactOfficeById = async (req, res) => {
     try {
       const { id } = req.params; // Get the ID from the route params
-      const { title, findonmap, address } = req.body;
+      const { title, findonmap, pin, landmark, country, city, area} = req.body;
   
       // Check if required fields are missing
-      if (!title || !findonmap || !address) {
+      if (!title || !findonmap ) {
         return res.status(400).json({
           message: 'All fields are required!',
           success: false
@@ -74,7 +74,7 @@ export const updateContactOfficeById = async (req, res) => {
       // Update the contact office with new data (title, findonmap, address, and image)
       const updatedOffice = await ContactOffice.findByIdAndUpdate(
         id,
-        { title, findonmap, address, image: imagpath },
+        { title, findonmap, pin,city,area,landmark,country, state,image: imagpath },
         { new: true }
       );
   
