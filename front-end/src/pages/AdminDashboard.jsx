@@ -11,6 +11,7 @@ import { AuthContext } from "../components/Context";
 import ContactForm from "../forms/ContactForm";
 import SEO from "../components/Seo";
 import AdminSEO from "../components/SeoAdmin";
+import ManagementForm from "../components/ManagementForm";
 
 
 function AdminDashboard() {
@@ -88,6 +89,16 @@ function AdminDashboard() {
                 }`}
               >
                 Products
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/admin/management"
+                className={`block py-2 px-4 rounded hover:bg-gray-700 ${
+                  location.pathname === "/admin/management" ? "bg-gray-700" : ""
+                }`}
+              >
+                Management
               </Link>
             </li>
             <li>
@@ -180,6 +191,7 @@ function AdminDashboard() {
             <Route path="/infrastructure" element={<InfrastructureForm />} />
             <Route path="/quality" element={<QualityForm />} />
             <Route path="/contact" element={<ContactForm />} />
+            <Route path="/management" element={<ManagementForm />} />
             <Route path="/seo" element={<AdminSEO/>}/>
           </Routes>
         </main>
