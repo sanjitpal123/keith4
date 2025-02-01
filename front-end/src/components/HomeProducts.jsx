@@ -1,15 +1,36 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import FetchProducts from "../services/ProductPage/FetchProducts";
+import FetchAllProducts from "../services/ProductPage/FetchAllProducts";
 
 function HomeProducts() {
   const [allproducts, setallproducts] = useState([]);
 
   async function fetchProduct() {
     try {
-      const get = await FetchProducts();
-      console.log("getproducts", get.getall);
-      setallproducts(get.getall.slice(0, 3)); // Limit to 3 products
+      const get = await FetchAllProducts();
+      console.log("getproducts", get);
+  
+      // Allowed types
+      const allowedTypes = ["Railway Castings", "Municipal & Public Utility Castings", "Agricultural Castings"];
+  
+      // Filter products to include only the allowed types
+      const filteredProducts = get.filter(product => 
+        allowedTypes.includes(product.typeofproduct)
+      );
+  
+      // Group by type and pick one product per type
+      const selectedProducts = [];
+      const seenTypes = new Set();
+  
+      for (const product of filteredProducts) {
+        if (!seenTypes.has(product.typeofproduct)) {
+          selectedProducts.push(product);
+          seenTypes.add(product.typeofproduct);
+        }
+        if (selectedProducts.length === 3) break; // Stop when we have 3 products
+      }
+  
+      setallproducts(selectedProducts);
     } catch (error) {
       console.log(error);
     }
@@ -17,20 +38,21 @@ function HomeProducts() {
 
   useEffect(() => {
     fetchProduct();
+    console.log("PRod",allproducts)
   }, []);
 
   return (
     <div className="min-h-[50vh] w-full py-10 px-4 bg-gray-50">
       {/* Title Section */}
       <div className="text-left lg:ml-14 mb-10">
-        <h1 className="text-lg md:text-2xl border-l-4 border-blue-700 pl-2 md:text-4xl font-bold text-[#FD5D14]">
+        <h1 className="text-lg md:text-2xl border-l-4 border-blue-700 pl-2 font-bold text-[#FD5D14]">
           Products
         </h1>
       </div>
 
       {/* Product Images Section */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        {allproducts.map((item, index) => (
+        {allproducts?.map((item, index) => (
           <div
             key={index}
             className="relative group rounded-xl overflow-hidden shadow-lg"
@@ -38,7 +60,7 @@ function HomeProducts() {
             <img
               src={item.image} // Dynamic image from API
               alt={item.name || `Product ${index + 1}`}
-              className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+              className="w-full h-64 object-contain transition-transform duration-500 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="absolute bottom-4 left-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
