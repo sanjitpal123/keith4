@@ -31,8 +31,8 @@ function HeroSection() {
       </video>
       <div className="video-overlay"></div>
       <div className="content">
-        <h1 className="text-xl sm:text-3xl md:text-6xl font-bold">{HeroData.content1}</h1>
-        <p className="text-sm sm:text-lg md:text-xl mt-4">{HeroData.content2}</p>
+        <h1 className="text-xl sm:text-3xl md:text-6xl font-bold" dangerouslySetInnerHTML={{__html:HeroData?.content1}}></h1>
+        <p className="text-sm sm:text-lg md:text-xl mt-4"  dangerouslySetInnerHTML={{__html:HeroData?.content2}}></p>
       </div>
     </div>
   );
