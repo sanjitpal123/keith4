@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import FetchQuality from "../services/Quality/FetchQuality";
 import LoadingPage from "./LoadingPage";
+import { motion } from "framer-motion";
 
 function Quality() {
   const [QualityData, setQualityData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch data function
   async function fetchquality() {
     try {
       const get = await FetchQuality();
@@ -25,8 +28,6 @@ function Quality() {
     (item) => item.typeofproduct === "SAND TESTING EQUIPMENT"
   );
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     setLoading(true);
     const timeout = setTimeout(() => setLoading(false), 1000); // Simulate a delay
@@ -37,10 +38,20 @@ function Quality() {
     fetchquality();
   }, []);
 
+  const fadeLeft = {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1 } },
+  };
+
+  const fadeRight = {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0, transition: { duration: 1 } },
+  };
+
   return (
     <>
       {loading ? (
-        <LoadingPage></LoadingPage>
+        <LoadingPage />
       ) : (
         <div className="w-full min-h-screen pt-[120px] bg-gray-100 sm:pt-[150px] flex flex-col items-center py-10 animate-fadeIn">
           <h1 className="text-xl self-start ml-4 sm:ml-16 md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10 animate-fadeIn">
@@ -48,7 +59,13 @@ function Quality() {
           </h1>
 
           {/* Physical Testing Equipment Section */}
-          <div className="w-[90%] md:w-[80%] bg-white shadow-lg rounded-lg p-6 mb-10 animate-fadeIn">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            variants={fadeLeft}
+            viewport={{ amount: "some" }}
+            className="w-[90%] md:w-[80%] bg-white shadow-lg rounded-lg p-6 mb-10 animate-fadeIn"
+          >
             <h2 className="font-semibold mb-4 text-center text-md sm:text-2xl text-[#FD5D14]">
               Physical Testing Equipment
             </h2>
@@ -73,10 +90,16 @@ function Quality() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Wet Chemical Laboratory Equipment Section */}
-          <div className="w-[90%] md:w-[80%] bg-white shadow-lg rounded-lg p-6 mb-10 animate-fadeIn">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            variants={fadeRight}
+            viewport={{ amount: "some" }}
+            className="w-[90%] md:w-[80%] bg-white shadow-lg rounded-lg p-6 mb-10 animate-fadeIn"
+          >
             <h2 className="font-semibold mb-4 text-center text-md sm:text-2xl text-[#FD5D14]">
               Wet Chemical Laboratory Equipment
             </h2>
@@ -101,10 +124,16 @@ function Quality() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Sand Testing Equipment Section */}
-          <div className="w-[90%] md:w-[80%] bg-white shadow-lg rounded-lg p-6 mb-10 animate-fadeIn">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            variants={fadeLeft}
+            viewport={{ amount: "some" }}
+            className="w-[90%] md:w-[80%] bg-white shadow-lg rounded-lg p-6 mb-10 animate-fadeIn"
+          >
             <h2 className="font-semibold mb-4 text-center text-md sm:text-2xl text-[#FD5D14]">
               SAND TESTING EQUIPMENT
             </h2>
@@ -129,7 +158,7 @@ function Quality() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
     </>
