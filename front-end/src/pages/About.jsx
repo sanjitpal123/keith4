@@ -83,24 +83,27 @@ function About() {
                     </motion.div>
 
                     {/* Who We Are Section */}
-                    <motion.div initial="hidden" whileInView="visible" variants={fadeLeft} viewport={{ amount: "some" }} className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-around items-center mt-10 px-2 md:px-8 gap-8">
+                    <motion.div initial="hidden" whileInView="visible" variants={fadeLeft} viewport={{ amount: "some" }} className="max-w-7xl bg-green-50  mt-10 px-2 md:px-8 gap-8">
                         {/* Text Section */}
                         <div className="max-w-[700px] md:text-left">
                             <h1 className="text-xl md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">
                                 {Aboutdata?.header}
-                            </h1>
-                            <ul className="space-y-2 text-left text-gray-700 text-sm md:text-md font-medium leading-loose">
-                                <li>▣ {Aboutdata?.content}</li>
-                            </ul>
-                        </div>
-                        {/* Image Section */}
-                        <motion.div initial="hidden" whileInView="visible" variants={fadeRight} viewport={{ amount: "some" }} className="mt-6 max-w-[500px]">
+                            </h1> 
+                            <motion.div initial="hidden" whileInView="visible" variants={fadeRight} viewport={{ amount: "some" }} className="mt-6 ">
                             <img
                                 className="rounded-lg shadow-lg w-full"
                                 src={Aboutdata?.image}
                                 alt="Who we are"
                             />
+                            <div
+                            className="space-y-2 text-left text-gray-700 w-full bg-blue-500 text-sm md:text-md font-medium leading-loose"
+                            dangerouslySetInnerHTML={{ __html: Aboutdata?.content }}
+                            ></div>
                         </motion.div>
+
+                        </div>
+                        {/* Image Section */}
+                       
                     </motion.div>
 
                     {/* Other Components with scroll-based animation */}
