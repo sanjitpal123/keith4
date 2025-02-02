@@ -97,7 +97,7 @@ function HomeForm() {
       // setVideoToUpload(compressedBlob);
       const compressedFile = new File(
         [compressedBlob],
-        `compressed_${videofileoftour.name}`,
+       ` compressed_${videofileoftour.name}`,
         {
           type: "video/mp4", // or 'video/webm' depending on your compression
           lastModified: Date.now(),
@@ -208,7 +208,7 @@ function HomeForm() {
     e.preventDefault();
     const files = e.target.files[0];
     SetAboutFile(files);
-    // Declare `files` properly
+    // Declare files properly
     if (files) {
       const fileurl = URL.createObjectURL(files);
       setAboutimageprev(fileurl);
@@ -575,13 +575,12 @@ function HomeForm() {
                 <label className="block text-gray-700 font-semibold mb-2">
                   Hero Description
                 </label>
-                <JoditEditor
+                <input
                   type="text"
-                  value={content ? content : herocontent}
-                  ref={editor}
-                  tabIndex={1}
-                  onBlur={(newContent) => setherocontent(newContent)}
-                  onChange={(newContent) => {}}
+                  value={ herocontent}
+                  
+                  // onBlur={(newContent) => setherocontent(newContent)}
+                  onChange={(e) => {setherocontent(e.target.value)}}
                   className="w-full p-4 border-2 border-gray-300 bg-white rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-300 focus:border-blue-500 transition-all duration-200 ease-in-out"
                   disabled={!isEditing1}
                 />
@@ -771,4 +770,4 @@ function HomeForm() {
   );
 }
 
-export default HomeForm;
+export default HomeForm;

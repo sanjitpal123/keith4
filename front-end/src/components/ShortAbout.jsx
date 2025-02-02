@@ -30,8 +30,7 @@ function ShortAbout() {
                     <div className="max-w-[700px]  md:text-left">
                         <h1 className=" text-xl md:text-3xl font-bold border-l-4 border-blue-800 pl-2 text-[#FD5D14] mb-4 md:mb-10">{data.header}</h1>
                         <ul className="space-y-2 text-left text-gray-700 text-sm md:text-md font-medium  leading-loose">
-                            <li >▣ {data?.content}
-                               <br></br>
+                            <li dangerouslySetInnerHTML={{__html: data?.content}}> 
                             </li>
                            
                             <button className="flex bg-[#FD5D14] p-1 sm:p-2 rounded-md text-white  ">
@@ -56,4 +55,4 @@ function ShortAbout() {
     )
 }
 
-export default ShortAbout
+export default ShortAbout

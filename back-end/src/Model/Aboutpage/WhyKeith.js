@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const Whykeith=mongoose.Schema({
-    Title:{
+    title:{
         type:String
     },
     description:{

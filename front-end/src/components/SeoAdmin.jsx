@@ -88,6 +88,7 @@ const AdminSEO = () => {
     settakingauthorfromedit(item.author);
     settakingdescriptionfromedit(item.description);
     settakingkeywordsfromedit(item.keywords);
+    console.log('keywrod',takingkeywordsfromedit)
     settakingtitlefromedit(item.title);
     settypesofseoforupdate(item.typesofseo);
   }
@@ -106,6 +107,7 @@ const AdminSEO = () => {
     const obj = {
       title: takingtitlefromedit,
       description: takingdescriptionfromedit,
+      keywords:takingkeywordsfromedit,
       author: takingauthorfromedit,
       typesofseo: typesofseoforupdate
     };
@@ -295,6 +297,11 @@ const AdminSEO = () => {
                     className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
+                </div>
+                <div className="w-[100%]">
+                  {allkeywords?.map((keyword)=>(
+                    <div  className="w-auto bg-orange-500 text-white">{keyword}</div>
+                  ))}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">

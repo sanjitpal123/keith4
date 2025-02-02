@@ -20,6 +20,7 @@ import Fetchhistoryall from "../services/AboutPage/FetchHistory";
 import HistoryForm from "../components/HistoryForm";
 import MissionVisionComponent from "../components/MissionVisionComponent";
 import FetchCoreAndPrinciple from "../services/AboutPage/FetchCoreAndPrinciple";
+import Whykeith from "../services/AboutPage/Whykeith";
 import fetchwhykeith from "../services/AboutPage/Whykeith";
 import Postaboutheading_content_image from "../services/AboutPage/Postmethods/PostAboutHeadingContentAndImage";
 import DeleteHistory from '../services/AboutPage/DeleteHistory';
@@ -33,6 +34,9 @@ function AboutForm() {
   const [showPrincipleModal, setShowPrincipleModal] = useState(false);
   const editor = useRef(null);
 	const [content, setContent] = useState('');
+  const editor2 = useRef(null);
+	const [content2, setContent2] = useState('');
+  
 
   // State for new items
   const [newHistory, setNewHistory] = useState({
@@ -63,10 +67,12 @@ function AboutForm() {
 
   const [historyData, setHistoryData] = useState([]);
   const [principlesData, setPrinciplesData] = useState([]);
-  const [whyUsData, setWhyUsData] = useState({
-    title: "",
-    description: "",
-  });
+  // const [whyUsData, setWhyUsData] = useState({
+  //   title: "",
+  //   description: "",
+  // });
+  const [whyUsHeading,setWhyUsHeading]=useState("")
+  const [whyUsDescription,setWhyUsDescription]=useState("")
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -164,10 +170,16 @@ function AboutForm() {
   const handleWhyUsSubmit = async (e) => {
     e.preventDefault();
     setIsSavingWhyUs(true);
+    // console.log('fomdata',why)
+    const formData = new FormData();
+    console.log("hi",whyUsHeading)
+    console.log("by",content2)
+    formData.append("title", whyUsHeading);
+    formData.append("description", content2);
     try {
       // Add your API call here to save Why Us data
-      console.log('fomdata',whyUsData)
-      const res=await WhykeithPost(whyUsData);
+      console.log("sending",formData)
+      const res=await WhykeithPost(formData);
       alert(res.message);
       setIsEditingWhyUs(false);
     } catch (error) {
@@ -191,12 +203,15 @@ function AboutForm() {
       setPrinciplesData(principles);
 
       const whyKeith = await fetchwhykeith();
-      if (whyKeith && whyKeith.length > 0) {
-        setWhyUsData({
-          title: whyKeith[0]?.Title || "",
-          description: whyKeith[0]?.description || "",
-        });
-      }
+      // if (whyKeith && whyKeith.length > 0) {
+        setWhyUsHeading(whyKeith[0]?.title||"")
+        setWhyUsDescription(whyKeith[0]?.description||"")
+        setContent2(whyKeith[0]?.description||"")
+        // setWhyUsData({
+        //   title: whyKeith[0]?.Title || "",
+        //   description: whyKeith[0]?.description || "",
+        // });
+      // }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -223,9 +238,17 @@ function AboutForm() {
       setIsAddingHistory(false);
     }
   };
+  async function fetchWhyKeith(){
+    try {
+      const res=await Whykeith()
+      console.log("keith",res)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   useEffect(() => {
-   
+    fetchWhyKeith()
     fetchData();
   }, []);
 
@@ -310,11 +333,12 @@ function AboutForm() {
                     tabIndex={1} // tabIndex of textarea
                     // onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
                     // onChange={newContent => {}}
-                      
+                      config={{
+                        placeholder:""
+                      }}
                       onChange={(newContent=>setContent(newContent))}
                   />
                                 </div>
-                {console.log(content)}
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <ImageIcon className="w-4 h-4 text-indigo-600 flex-shrink-0" />
@@ -490,9 +514,10 @@ function AboutForm() {
                   </label>
                   <input
                     type="text"
-                    value={whyUsData.title}
+                    value={whyUsHeading}
                     onChange={(e) =>
-                      setWhyUsData({ ...whyUsData, title: e.target.value })
+                      // setWhyUsData({ ...whyUsData, title: e.target.value })
+                      setWhyUsHeading(e.target.value)
                     }
                     disabled={!isEditingWhyUs}
                     className={`w-full px-3 py-2  text-sm rounded-lg border ${
@@ -505,7 +530,7 @@ function AboutForm() {
                   <label className="text-sm font-medium text-gray-700">
                     Description
                   </label>
-                  <textarea
+                  {/* <textarea
                     value={whyUsData.description}
                     onChange={(e) =>
                       setWhyUsData({ ...whyUsData, description: e.target.value })
@@ -515,6 +540,17 @@ function AboutForm() {
                       !isEditingWhyUs ? 'bg-gray-50' : 'bg-white'
                     } border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`}
                     rows={3}
+                  /> */}
+                  <JoditEditor
+                    ref={editor2}
+                    value={content2}
+                    tabIndex={1} // tabIndex of textarea
+                    // onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                    // onChange={newContent => {}}
+                      config={{
+                        placeholder:""
+                      }}
+                      onChange={(newContent=>setContent2(newContent))}
                   />
                 </div>
                 {isEditingWhyUs && (
