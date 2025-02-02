@@ -10,6 +10,7 @@ import { Plus, X, Edit2, Trash2, Save } from "lucide-react";
 import EditQuality from "../services/Quality/EditQuality";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import EditManagement from "../services/AboutPage/Postmethods/EditManagement";
+import DeleteManagement from "../services/AboutPage/Postmethods/DeleteManagement";
 // Quality
 
 function ManagementForm() {
@@ -72,8 +73,9 @@ function ManagementForm() {
   const handleDelete = async (id) => {
     try {
       setIsDeleting(id)
-      const res = await DeleteQuality(id);
+      const res = await DeleteManagement(id);
       console.log("deleted", res);
+      fetchManagement();
       setIsDeleting(null)
       toast.success('Deleted successfully!', {
         position: "top-right",
