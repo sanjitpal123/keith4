@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useEffect, useState } from "react";
 import { 
   Building2, 
@@ -14,6 +14,7 @@ import {
   Trash2,
   Plus
 } from "lucide-react";
+import JoditEditor from 'jodit-react';
 import FetchAboutHeading from "../services/AboutPage/FetchAboutHeading";
 import Fetchhistoryall from "../services/AboutPage/FetchHistory";
 import HistoryForm from "../components/HistoryForm";
@@ -30,7 +31,9 @@ function AboutForm() {
   // State for modals
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [showPrincipleModal, setShowPrincipleModal] = useState(false);
-  
+  const editor = useRef(null);
+	const [content, setContent] = useState('');
+
   // State for new items
   const [newHistory, setNewHistory] = useState({
     title: "",
@@ -83,7 +86,7 @@ function AboutForm() {
     setIsSaving(true);
     const formData = new FormData();
     formData.append("header", aboutHeading);
-    formData.append("content", aboutContent);
+    formData.append("content", content);
     if (aboutImage) {
       formData.append("image", aboutImage);
     }
@@ -178,7 +181,7 @@ function AboutForm() {
     try {
       const aboutData = await FetchAboutHeading();
       setAboutHeading(aboutData.header);
-      setAboutContent(aboutData.content);
+      setContent(aboutData.content);
       setImagePreview(aboutData.image || "");
 
       const history = await Fetchhistoryall();
@@ -291,7 +294,7 @@ function AboutForm() {
                       {/* <PencilLine className="w-4 h-4 text-indigo-600 flex-shrink-0" /> */}
                       Description
                     </label>
-                    <textarea
+                    {/* <textarea
                       value={aboutContent}
                       onChange={(e) => setAboutContent(e.target.value)}
                       className={`w-full px-3 py-2 text-sm rounded-lg border ${
@@ -300,9 +303,18 @@ function AboutForm() {
                       placeholder="Enter description"
                       rows={3}
                       disabled={!isEditing}
-                    />
-                  </div>
-
+                    /> */}
+                    <JoditEditor
+                    ref={editor}
+                    value={content}
+                    tabIndex={1} // tabIndex of textarea
+                    // onBlur={newContent => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+                    // onChange={newContent => {}}
+                      
+                      onChange={(newContent=>setContent(newContent))}
+                  />
+                                </div>
+                {console.log(content)}
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
                       <ImageIcon className="w-4 h-4 text-indigo-600 flex-shrink-0" />

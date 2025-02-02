@@ -53,7 +53,7 @@ function Home() {
       {loading ? (
         <LoadingPage />
       ) : (
-        <div className="flex flex-col items-center">
+        <div className="flex bg-gray-100 flex-col items-center">
           <HeroSection />
           <motion.div initial="hidden" whileInView="visible" variants={fadeLeft} viewport={{ amount: "some" }}>
             <ShortAbout />

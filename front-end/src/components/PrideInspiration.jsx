@@ -56,7 +56,7 @@ function PrideInspiration() {
           to="/about"
           className="bg-[#FD5D14] hover:bg-[#e04c0f] px-6 py-3 rounded-full text-white font-semibold shadow-md transition-transform transform hover:scale-105 flex items-center gap-2"
         >
-          <span>See more</span>
+          <span>See More</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

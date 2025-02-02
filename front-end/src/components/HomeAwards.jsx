@@ -130,7 +130,7 @@ const HomeAwards = () => {
                   className="flex gap-2 items-center"
                   href="about.html"
                 >
-                  See more
+                  See More
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
