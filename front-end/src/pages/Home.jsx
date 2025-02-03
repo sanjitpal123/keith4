@@ -132,7 +132,7 @@ function Home() {
                   Keith Ceramic - Premium Handmade Pottery
                 </h1>
                 <img
-                  src="./assets/images/logo.webp"
+                  src="./assets/images/logo.png"
                   alt="Keith Ceramic Handmade Pottery Logo"
                   loading="lazy"
                   className="h-[50px] md:h-[80px] lg:h-[100px] object-contain"

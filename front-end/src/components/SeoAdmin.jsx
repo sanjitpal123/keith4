@@ -21,6 +21,9 @@ const AdminSEO = () => {
   const[idtoedit, setidtoedit]=useState(null);
   const[updating, setupdating]=useState(false);
   const [loading, setLoading] = useState(false);
+  const [editTags, setEditTags] = useState([]);
+  const [newTags, setNewTags] = useState([]);
+  const [newKeywordInput, setNewKeywordInput] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -51,11 +54,27 @@ const AdminSEO = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleNewKeywordKeyDown = (e) => {
+    if (e.key === 'Enter' && newKeywordInput.trim()) {
+      e.preventDefault();
+      setNewTags([...newTags, newKeywordInput.trim()]);
+      setNewKeywordInput("");
+    }
+  };
+
+  const removeNewTag = (indexToRemove) => {
+    setNewTags(newTags.filter((_, index) => index !== indexToRemove));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loadingToast = toast.loading('Adding new SEO entry...');
     try {
-      const data = await Addnewseo(formData);
+      const dataToSubmit = {
+        ...formData,
+        keywords: newTags.join(', ')
+      };
+      const data = await Addnewseo(dataToSubmit);
       await fetchMetadata();
       setIsModalOpen(false);
       setFormData({
@@ -65,6 +84,7 @@ const AdminSEO = () => {
         author: "",
         typesofseo: ""
       });
+      setNewTags([]);
       toast.success('SEO entry added successfully', { id: loadingToast });
     } catch (error) {
       console.error("Error updating metadata", error);
@@ -87,10 +107,23 @@ const AdminSEO = () => {
     setidtoedit(item._id);
     settakingauthorfromedit(item.author);
     settakingdescriptionfromedit(item.description);
-    settakingkeywordsfromedit(item.keywords);
+    settakingkeywordsfromedit("");
+    setEditTags(item.keywords.split(',').map(k => k.trim()).filter(k => k));
     settakingtitlefromedit(item.title);
     settypesofseoforupdate(item.typesofseo);
   }
+
+  const handleKeywordKeyDown = (e) => {
+    if (e.key === 'Enter' && takingkeywordsfromedit.trim()) {
+      e.preventDefault();
+      setEditTags([...editTags, takingkeywordsfromedit.trim()]);
+      settakingkeywordsfromedit("");
+    }
+  };
+
+  const removeTag = (indexToRemove) => {
+    setEditTags(editTags.filter((_, index) => index !== indexToRemove));
+  };
 
   const filteredGroups = Object.entries(groupedMetadata).filter(([type, items]) =>
     type.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -107,7 +140,8 @@ const AdminSEO = () => {
       title: takingtitlefromedit,
       description: takingdescriptionfromedit,
       author: takingauthorfromedit,
-      typesofseo: typesofseoforupdate
+      typesofseo: typesofseoforupdate,
+      keywords: editTags.join(', ')
     };
     
     setupdating(true);
@@ -300,13 +334,30 @@ const AdminSEO = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Keywords
                   </label>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {newTags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md flex items-center gap-1"
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => removeNewTag(index)}
+                          className="hover:text-blue-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                   <input
                     type="text"
-                    name="keywords"
-                    value={formData.keywords}
-                    onChange={handleChange}
+                    value={newKeywordInput}
+                    onChange={(e) => setNewKeywordInput(e.target.value)}
+                    onKeyDown={handleNewKeywordKeyDown}
+                    placeholder="Type and press Enter to add keywords"
                     className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
                   />
                 </div>
                 <div>
@@ -406,13 +457,31 @@ const AdminSEO = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Keywords
                   </label>
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    {editTags.map((tag, index) => (
+                      <span
+                        key={index}
+                        className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md flex items-center gap-1"
+                      >
+                        {tag}
+                        <button
+                          type="button"
+                          onClick={() => removeTag(index)}
+                          className="hover:text-blue-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
                   <input
                     type="text"
                     name="keywords"
                     value={takingkeywordsfromedit}
-                    onChange={(e)=>settakingkeywordsfromedit(e.target.value)}
+                    onChange={(e) => settakingkeywordsfromedit(e.target.value)}
+                    onKeyDown={handleKeywordKeyDown}
+                    placeholder="Type and press Enter to add keywords"
                     className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    required
                   />
                 </div>
                 <div>
@@ -460,4 +529,4 @@ const AdminSEO = () => {
   );
 };
 
-export default AdminSEO;
+export default AdminSEO; 
